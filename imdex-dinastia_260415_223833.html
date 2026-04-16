@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Dinastía · Oráculo de Campeones</title>
+    
+    <!-- Fuentes Épicas -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: linear-gradient(160deg, #1a222c 0%, #2c3a4a 50%, #1a222c 100%); font-family: 'Montserrat', sans-serif; color: #f0f4f8; line-height: 1.6; padding: 20px; min-height: 100vh; }
+        .container { max-width: 900px; margin: 0 auto; }
+        h1, h2, h3 { font-family: 'Cinzel', serif; color: #e9c46a; }
+        h1 { font-size: 2.5rem; text-align: center; margin-bottom: 10px; text-shadow: 0 0 20px rgba(233, 196, 106, 0.3); letter-spacing: 2px; }
+        .subtitle { text-align: center; color: #b0c4de; margin-bottom: 30px; font-style: italic; border-bottom: 1px solid #4a6572; padding-bottom: 20px; }
+        .stage-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 30px 0; }
+        .stage-card { background: rgba(25, 35, 45, 0.8); border: 1px solid #5a7a8a; padding: 15px; border-radius: 8px; backdrop-filter: blur(2px); box-shadow: 0 4px 10px rgba(0,0,0,0.3); transition: transform 0.3s; }
+        .stage-card:hover { transform: translateY(-5px); border-color: #e9c46a; }
+        .stage-card h2 { font-size: 1.3rem; margin-bottom: 10px; border-left: 4px solid #e9c46a; padding-left: 15px; }
+        .oracle-section { background: rgba(18, 28, 36, 0.9); border: 1px solid #e9c46a; border-radius: 12px; padding: 20px; margin: 30px 0; backdrop-filter: blur(4px); box-shadow: 0 0 30px rgba(0,0,0,0.5); }
+        .oracle-header { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
+        .oracle-header h3 { font-size: 1.5rem; color: #e9c46a; margin: 0; }
+        .ai-badge { background: #2c3a4a; padding: 5px 10px; border-radius: 20px; font-size: 0.7rem; color: #e9c46a; border: 1px solid #5a7a8a; }
+        #chat-area { background: #15202b; border-radius: 8px; padding: 15px; min-height: 200px; max-height: 350px; overflow-y: auto; margin-bottom: 15px; }
+        .message { margin-bottom: 12px; display: flex; flex-direction: column; }
+        .user-msg { align-items: flex-end; }
+        .ia-msg { align-items: flex-start; }
+        .msg-bubble { padding: 10px 15px; border-radius: 18px; max-width: 85%; word-wrap: break-word; }
+        .user-msg .msg-bubble { background: #2c3a4a; color: #ffffff; border-bottom-right-radius: 5px; border: 1px solid #5a7a8a; }
+        .ia-msg .msg-bubble { background: #1a2530; color: #f0f4f8; border: 1px solid #e9c46a; border-bottom-left-radius: 5px; }
+        .input-group { display: flex; gap: 8px; }
+        #userInput { flex: 1; background: #15202b; border: 1px solid #4a6572; padding: 12px; border-radius: 30px; color: white; font-size: 0.9rem; outline: none; font-family: 'Montserrat', sans-serif; }
+        #userInput:focus { border-color: #e9c46a; }
+        #sendBtn { background: #e9c46a; color: #1a222c; border: none; padding: 0 20px; border-radius: 30px; font-weight: bold; cursor: pointer; font-family: 'Cinzel', serif; transition: 0.3s; }
+        #sendBtn:hover { background: #f4d03f; box-shadow: 0 0 15px #e9c46a; }
+        #sendBtn:disabled { opacity: 0.5; cursor: not-allowed; }
+        footer { text-align: center; margin-top: 30px; color: #7a9aae; font-size: 0.8rem; }
+        .typing-dots::after { content: '...'; animation: dots 1.5s steps(4, end) infinite; display: inline-block; width: 24px; text-align: left; }
+        @keyframes dots { 0%, 20% { content: ''; } 40% { content: '.'; } 60% { content: '..'; } 80%, 100% { content: '...'; } }
+        @media (max-width: 600px) { h1 { font-size: 2rem; } .stage-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏆 LA DINASTÍA 🏆</h1>
+        <div class="subtitle">El Camino a la Gloria Eterna · Táctica, Pasión y Leyenda</div>
+
+        <div class="stage-grid">
+            <div class="stage-card"><h2>1. La Fundación</h2><p>Construir desde la defensa. El primer trofeo llega con orden.</p></div>
+            <div class="stage-card"><h2>2. La Consolidación</h2><p>Dominar el mediocampo. Ser dueños del partido.</p></div>
+            <div class="stage-card"><h2>3. La Dinastía</h2><p>Mística de club. Los jugadores sienten la camiseta.</p></div>
+            <div class="stage-card"><h2>4. La Leyenda</h2><p>Ganar copas con autoridad. Sello histórico.</p></div>
+        </div>
+
+        <div class="oracle-section">
+            <div class="oracle-header"><h3>🧠 Oráculo Táctico</h3><span class="ai-badge">DT Virtual · Sabiduría de Campeón</span></div>
+            <p style="margin-bottom:15px; color:#b0c4de; font-size:0.9rem;"><i>⚽ Pregúntale al estratega. Respuestas con ADN futbolero. ⚽</i></p>
+            <div id="chat-area">
+                <div class="message ia-msg">
+                    <div class="msg-bubble">🏛️ ¡Bienvenido, técnico! Soy tu oráculo futbolero. Pregúntame de táctica, presión alta, doble pivote, delantero centro o cómo ganar copas. ¡Dale, nomás!</div>
+                </div>
+            </div>
+            <div class="input-group">
+                <input type="text" id="userInput" placeholder="Ej: '¿Qué hago si me presionan alto?' o '¿4-3-3 o 4-4-2?'">
+                <button id="sendBtn">CONSULTAR</button>
+            </div>
+        </div>
+        
+        <footer>⚡ El verdadero legado se forja en las finales. La gloria espera a los valientes. ⚡</footer>
+    </div>
+
+    <script>
+        // ============================================
+        // ORÁCULO 100% FUTBOLERO
+        // ============================================
+        
+        const chatArea = document.getElementById('chat-area');
+        const userInput = document.getElementById('userInput');
+        const sendBtn = document.getElementById('sendBtn');
+
+        // BASE DE RESPUESTAS FUTBOLERAS
+        const respuestasFutboleras = {
+            formaciones: [
+                "📋 El 4-3-3 te da salida y amplitud. Necesitas extremos que desequilibren y un 9 de área.",
+                "📋 4-4-2 en rombo: recuperación en medio campo y juego asociativo. El '10' tiene que ser talentoso.",
+                "📋 5-3-2 es para partidos de eliminatoria. Línea de 5 firme, laterales con proyección y dos puntas que se entiendan.",
+                "📋 3-4-3 solo si tus centrales son rápidos y salen jugando. Es un sistema de riesgo pero muy ofensivo.",
+                "📋 El 4-2-3-1 es el más equilibrado. Doble pivote para proteger y tres volantes creativos detrás del 9."
+            ],
+            presion: [
+                "🔥 Presión alta: sincronización total. Cuando el rival saca de meta, tus delanteros saltan juntos.",
+                "⚡ Si te presionan alto, juega en largo al 9 de espaldas o busca a los laterales en velocidad.",
+                "🔄 Contra presión: al perder el balón, tienes 5 segundos para recuperar o replegar. Simeone lo domina.",
+                "🧠 La clave de la presión es no correr como locos. Bloquea líneas de pase y fuerza error.",
+                "📐 Salida de balón contra presión: juega con 3 atrás y un mediocentro que baje al espacio."
+            ],
+            delanteros: [
+                "🎯 El 9 de área necesita centro y compañía. Si juega solo, aislado, no sirve.",
+                "💨 Delantero rápido al espacio: tu mediocampo debe tener pase filtrado. Ejemplo: Mbappé o Haaland.",
+                "🦵 Delantero de espaldas: aguanta, descarga y gira. Como Benzema o Lewandowski.",
+                "🤝 Pareja de ataque: un '9' de área y un 'second striker' que se asocie. Histórico: Romario-Bebeto.",
+                "⭐ Delantero goleador: necesita 5 o 6 ocasiones por partido. Si tu equipo no genera, no hará magia."
+            ],
+            mediocampo: [
+                "🎚️ Doble pivote: uno de contención (5) y uno de salida (8). Como Busquets-Xavi o Casemiro-Modric.",
+                "🔗 Volante de enganche: el '10' clásico. Riquelme, Özil. Libertad táctica pero responsabilidad defensiva.",
+                "🏃‍♂️ Box to box: corre los 90 minutos. Llega al área rival y vuelve a defender. Ejemplo: Vidal, Valverde.",
+                "🧠 El mediocentro organizador: toca, pausa y cambia el juego. Kroos o Pirlo. Brújula del equipo.",
+                "⚔️ Recuperador puro: solo piensa en robar y dar simple. Makélélé o Kanté. El equilibrio del equipo."
+            ],
+            defensa: [
+                "🛡️ Línea de 4 en zona: disciplina táctica. El fuera de juego es un arte que se entrena.",
+                "💪 Central con salida: Laporte o Van Dijk. No solo defiende, construye desde atrás.",
+                "🏃‍♂️ Lateral con proyección: como Marcelo o Alves. Sube al ataque pero vigila su espalda.",
+                "⚠️ Defensa adelantada: solo si tienes centrales rápidos y un portero que barre. Riesgo alto.",
+                "🧤 Portero moderno: juega con los pies y sale en uno contra uno. Ederson, Neuer, Courtois."
+            ],
+            finales: [
+                "🏟️ En una final, los primeros 15 minutos son vitales. No te expongas, estudia al rival.",
+                "⏱️ Minuto 70-80: momento clave. Los cambios pueden decidir. Guarda una bala en el banquillo.",
+                "🥇 Penales: entrena mentalidad. Tu lista de 5 lanzadores, orden fijo. El portero debe estudiar al rival.",
+                "📿 En finales, la experiencia pesa. Juega con los que ya la vivieron. No inventes.",
+                "🌡️ Control emocional: hablar en el vestuario, mirar a los ojos. Calma y convicción."
+            ],
+            mentalidad: [
+                "🧠 Gestión del vestuario: los líderes deben hablar. Reuniones cortas, mensajes claros.",
+                "😤 Cuando vas perdiendo: pausa, orden y un gol te mete en partido. No te desesperes.",
+                "🙌 Motivación: cada jugador es diferente. Unos necesitan charla, otros concentración.",
+                "🔄 Rotaciones: partido cada 3 días. Tus titulares necesitan descanso. Confía en el banquillo.",
+                "📈 Racha de resultados: no te duermas. Ganar dos seguidos no es dinastía, constancia es la clave."
+            ],
+            general: [
+                "🧐 Mira, técnico: el fútbol es simple. El que hace menos errores, gana. Entrena las jugadas de estrategia.",
+                "📹 Estudia al rival: busca su punto débil. Si su lateral derecho flaquea, ataca por ahí 20 veces.",
+                "🎙️ Rueda de prensa: no regales titulares. Protege a tu plantel, los errores se corrigen adentro.",
+                "🔄 Partido de ida y vuelta: en casa, no te confíes. Fuera, un gol de visitante vale oro.",
+                "📊 Analiza datos: posesión no es dominio. Mira xG, tiros a puerta, recuperaciones. Eso es real."
+            ]
+        };
+
+        function detectarCategoria(pregunta) {
+            const p = pregunta.toLowerCase();
+            
+            if (p.includes('formacion') || p.includes('sistema') || p.includes('esquema') || p.includes('4-3-3') || p.includes('4-4-2') || p.includes('5-3-2') || p.includes('3-4-3')) 
+                return 'formaciones';
+            if (p.includes('presion') || p.includes('presión') || p.includes('salida') || p.includes('bloque') || p.includes('contra presión')) 
+                return 'presion';
+            if (p.includes('delantero') || p.includes('9') || p.includes('gol') || p.includes('atacante') || p.includes('punta')) 
+                return 'delanteros';
+            if (p.includes('mediocampo') || p.includes('volante') || p.includes('pivote') || p.includes('enganche') || p.includes('creativo')) 
+                return 'mediocampo';
+            if (p.includes('defensa') || p.includes('central') || p.includes('lateral') || p.includes('linea de') || p.includes('portero')) 
+                return 'defensa';
+            if (p.includes('final') || p.includes('titulo') || p.includes('copa') || p.includes('campeon') || p.includes('orejona')) 
+                return 'finales';
+            if (p.includes('mentalidad') || p.includes('motivar') || p.includes('vestuario') || p.includes('rotacion') || p.includes('racha')) 
+                return 'mentalidad';
+            
+            return 'general';
+        }
+
+        function obtenerRespuesta(pregunta) {
+            const categoria = detectarCategoria(pregunta);
+            const respuestas = respuestasFutboleras[categoria];
+            const respuestaBase = respuestas[Math.floor(Math.random() * respuestas.length)];
+            
+            // Personalización extra según pregunta
+            if (pregunta.toLowerCase().includes('como') || pregunta.toLowerCase().includes('qué')) {
+                return respuestaBase;
+            }
+            
+            return respuestaBase;
+        }
+
+        function addMessage(text, isUser = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user-msg' : 'ia-msg'}`;
+            const bubble = document.createElement('div');
+            bubble.className = 'msg-bubble';
+            bubble.textContent = text;
+            messageDiv.appendChild(bubble);
+            chatArea.appendChild(messageDiv);
+            chatArea.scrollTop = chatArea.scrollHeight;
+        }
+
+        function showTyping() {
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'message ia-msg';
+            typingDiv.id = 'typing-indicator';
+            typingDiv.innerHTML = '<div class="msg-bubble"><span class="typing-dots">📋 Analizando táctica</span></div>';
+            chatArea.appendChild(typingDiv);
+            chatArea.scrollTop = chatArea.scrollHeight;
+        }
+
+        function removeTyping() {
+            const typing = document.getElementById('typing-indicator');
+            if (typing) typing.remove();
+        }
+
+        async function handleSend() {
+            const question = userInput.value.trim();
+            if (!question) return;
+            
+            addMessage(question, true);
+            userInput.value = '';
+            sendBtn.disabled = true;
+            
+            showTyping();
+            
+            setTimeout(() => {
+                removeTyping();
+                let respuesta = obtenerRespuesta(question);
+                
+                // Toque extra de emoji futbolero
+                const emojisFutbol = ['⚽', '🥅', '📋', '🎯', '🔥', '💪', '🧠', '👟'];
+                if (Math.random() > 0.6) {
+                    respuesta = emojisFutbol[Math.floor(Math.random() * emojisFutbol.length)] + " " + respuesta;
+                }
+                
+                addMessage(respuesta, false);
+                sendBtn.disabled = false;
+                userInput.focus();
+            }, 1000);
+        }
+
+        sendBtn.addEventListener('click', handleSend);
+        userInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleSend(); });
+        
+        setTimeout(() => {
+            addMessage("⚽ Recuerda: el fútbol no se inventa, se trabaja. ¿Neurona táctica hoy? Pregúntame.", false);
+        }, 3000);
+    </script>
+</body>
+</html>
