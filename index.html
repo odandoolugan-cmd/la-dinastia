@@ -134,14 +134,14 @@
     </script>
 
     <!-- ============================================ -->
-    <!-- IA LOCAL - VERSIÓN CORREGIDA Y FUNCIONAL    -->
+    <!-- IA LOCAL - CON TINYLLAMA 1.1B CHAT          -->
     <!-- ============================================ -->
     <script>
-        // Configuración - IP de tu teléfono (verificada y funcionando)
+        // Configuración - Usando TinyLlama (más ligero y estable)
         const IA_CONFIG = {
             ip: '192.168.100.34',
             puerto: '8005',
-            modelo: 'deepseek-r1-distill-qwen-1.5b'
+            modelo: 'TinyLlama 1.1B Chat'  // ← Modelo que funciona en tu teléfono
         };
         
         let iaLocalActiva = false;
@@ -149,7 +149,7 @@
         const userInput = document.getElementById('userInput');
         const sendBtn = document.getElementById('sendBtn');
         
-        // Respuestas de respaldo (fútbol)
+        // Respuestas de respaldo (solo si la IA local falla)
         const respuestasBackup = [
             "🔥 Si te presionan alto, juega en largo al 9 o busca a los laterales en velocidad.",
             "📋 El 4-3-3 te da salida y amplitud. Necesitas extremos que desequilibren.",
@@ -201,7 +201,7 @@
                 iaLocalActiva = (data.status === 'running' && data.ai?.isEnabled === true);
                 console.log('🔌 IA Local activa:', iaLocalActiva);
                 if (iaLocalActiva) {
-                    addMessage("🧠✨ ¡IA Local conectada! Usando la IA de mi teléfono (DeepSeek).", false);
+                    addMessage("🧠✨ ¡IA Local conectada! Usando TinyLlama en mi teléfono.", false);
                 } else {
                     addMessage("⚠️ Usando respuestas básicas. Para activar la IA local, abre AI Phone Server en tu teléfono.", false);
                 }
@@ -209,28 +209,32 @@
             } catch (error) {
                 iaLocalActiva = false;
                 console.log('🔌 Error de conexión:', error);
-                addMessage("⚠️ No se pudo conectar a la IA del teléfono. Verifica que la app AI Phone Server esté abierta y que la IP sea correcta.", false);
+                addMessage("⚠️ No se pudo conectar a la IA del teléfono. Verifica que la app esté abierta y uses http://", false);
                 return false;
             }
         }
         
-        // Preguntar a la IA del teléfono
+        // Preguntar a TinyLlama en el teléfono
         async function preguntarAIphone(pregunta) {
             try {
                 const response = await fetch(`http://${IA_CONFIG.ip}:${IA_CONFIG.puerto}/ai/text`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        prompt: `Eres un experto entrenador de fútbol. Responde de manera CONCISA y ÚTIL (máximo 3 oraciones) a: ${pregunta}`,
+                        prompt: `[INST] Eres un entrenador de fútbol experto. Responde la siguiente pregunta de forma clara, concisa y útil (máximo 3 oraciones):\n\n${pregunta}\n\nRespuesta: [/INST]`,
                         model: IA_CONFIG.modelo,
                         maxTokens: 300,
                         temperature: 0.7
                     })
                 });
                 
-                if (!response.ok) return null;
+                if (!response.ok) {
+                    console.log('❌ HTTP Error:', response.status);
+                    return null;
+                }
+                
                 const data = await response.json();
-                console.log('✅ Respuesta IA local:', data);
+                console.log('✅ Respuesta TinyLlama:', data);
                 return data.text || data.response || null;
             } catch (error) {
                 console.error('❌ Error en IA local:', error);
