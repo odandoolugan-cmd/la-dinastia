@@ -134,10 +134,10 @@
     </script>
 
     <!-- ============================================ -->
-    <!-- IA LOCAL - CON TINYLLAMA Y AUTENTICACIÓN     -->
+    <!-- IA LOCAL - CON TINYLLAMA FUNCIONANDO        -->
     <!-- ============================================ -->
     <script>
-        // Configuración - Usando TinyLlama (más ligero y estable)
+        // Configuración - IP de tu teléfono y modelo TinyLlama
         const IA_CONFIG = {
             ip: '192.168.100.34',
             puerto: '8005',
@@ -182,7 +182,7 @@
             const typingDiv = document.createElement('div');
             typingDiv.className = 'message ia-msg';
             typingDiv.id = 'typing-indicator';
-            typingDiv.innerHTML = '<div class="msg-bubble"><span class="typing-dots">🧠 Analizando táctica</span></div>';
+            typingDiv.innerHTML = '<div class="msg-bubble"><span class="typing-dots">🧠 TinyLlama analizando táctica</span></div>';
             chatArea.appendChild(typingDiv);
             chatArea.scrollTop = chatArea.scrollHeight;
         }
@@ -201,7 +201,7 @@
                 iaLocalActiva = (data.status === 'running' && data.ai?.isEnabled === true);
                 console.log('🔌 IA Local activa:', iaLocalActiva);
                 if (iaLocalActiva) {
-                    addMessage("🧠✨ ¡IA Local conectada! Usando TinyLlama en mi teléfono.", false);
+                    addMessage("🧠✨ ¡IA Local conectada! Usando TinyLlama en mi teléfono. Pregúntame de fútbol.", false);
                 } else {
                     addMessage("⚠️ Usando respuestas básicas. Para activar la IA local, abre AI Phone Server en tu teléfono.", false);
                 }
@@ -209,52 +209,33 @@
             } catch (error) {
                 iaLocalActiva = false;
                 console.log('🔌 Error de conexión:', error);
-                addMessage("⚠️ No se pudo conectar a la IA del teléfono. Verifica que la app esté abierta y uses http://", false);
+                addMessage("⚠️ No se pudo conectar a la IA del teléfono. Verifica que la app esté abierta.", false);
                 return false;
             }
         }
         
-        // Preguntar a TinyLlama en el teléfono (con autenticación para evitar 403)
+        // Preguntar a TinyLlama en el teléfono (versión SIMPLE que funciona)
         async function preguntarAIphone(pregunta) {
             try {
-                // Intento con autenticación básica
                 const response = await fetch(`http://${IA_CONFIG.ip}:${IA_CONFIG.puerto}/ai/text`, {
                     method: 'POST',
-                    headers: { 
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer dummy-token'
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        prompt: `[INST] Eres un entrenador de fútbol experto. Responde de forma clara, concisa y útil (máximo 3 oraciones):\n\n${pregunta}\n\nRespuesta: [/INST]`,
+                        prompt: `Eres un entrenador de fútbol experto. Responde de forma clara y concisa (máximo 3 oraciones) en español. Pregunta: ${pregunta}`,
                         model: IA_CONFIG.modelo,
-                        maxTokens: 300,
+                        maxTokens: 200,
                         temperature: 0.7
                     })
                 });
                 
-                if (response.status === 403) {
-                    console.log('⚠️ Error 403, reintentando sin autenticación...');
-                    // Reintentar sin autenticación
-                    const response2 = await fetch(`http://${IA_CONFIG.ip}:${IA_CONFIG.puerto}/ai/text`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            prompt: `[INST] ${pregunta} [/INST]`,
-                            model: IA_CONFIG.modelo,
-                            maxTokens: 300,
-                            temperature: 0.7
-                        })
-                    });
-                    if (!response2.ok) return null;
-                    const data2 = await response2.json();
-                    console.log('✅ Respuesta TinyLlama (sin auth):', data2);
-                    return data2.text || data2.response || null;
+                if (!response.ok) {
+                    console.log('❌ HTTP Error:', response.status);
+                    return null;
                 }
                 
-                if (!response.ok) return null;
                 const data = await response.json();
                 console.log('✅ Respuesta TinyLlama:', data);
-                return data.text || data.response || null;
+                return data.response || data.text || null;
             } catch (error) {
                 console.error('❌ Error en IA local:', error);
                 return null;
