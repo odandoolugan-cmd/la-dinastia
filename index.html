@@ -134,10 +134,10 @@
     </script>
 
     <!-- ============================================ -->
-    <!-- IA LOCAL - CÓDIGO CORREGIDO                  -->
+    <!-- IA LOCAL - VERSIÓN CORREGIDA Y FUNCIONAL    -->
     <!-- ============================================ -->
     <script>
-        // Configuración de la IA local en tu teléfono
+        // Configuración - IP de tu teléfono (verificada y funcionando)
         const IA_CONFIG = {
             ip: '192.168.100.34',
             puerto: '8005',
@@ -195,20 +195,21 @@
         // Verificar conexión con el teléfono
         async function verificarIA() {
             try {
+                console.log('🔌 Conectando a:', `http://${IA_CONFIG.ip}:${IA_CONFIG.puerto}/status`);
                 const response = await fetch(`http://${IA_CONFIG.ip}:${IA_CONFIG.puerto}/status`);
                 const data = await response.json();
                 iaLocalActiva = (data.status === 'running' && data.ai?.isEnabled === true);
                 console.log('🔌 IA Local activa:', iaLocalActiva);
                 if (iaLocalActiva) {
-                    addMessage("🧠✨ ¡IA Local conectada! Usando la IA de mi teléfono.", false);
+                    addMessage("🧠✨ ¡IA Local conectada! Usando la IA de mi teléfono (DeepSeek).", false);
                 } else {
                     addMessage("⚠️ Usando respuestas básicas. Para activar la IA local, abre AI Phone Server en tu teléfono.", false);
                 }
                 return iaLocalActiva;
             } catch (error) {
                 iaLocalActiva = false;
-                console.log('🔌 No se pudo conectar al teléfono');
-                addMessage("⚠️ No se pudo conectar a la IA del teléfono. Usando respuestas básicas.", false);
+                console.log('🔌 Error de conexión:', error);
+                addMessage("⚠️ No se pudo conectar a la IA del teléfono. Verifica que la app AI Phone Server esté abierta y que la IP sea correcta.", false);
                 return false;
             }
         }
@@ -229,9 +230,10 @@
                 
                 if (!response.ok) return null;
                 const data = await response.json();
+                console.log('✅ Respuesta IA local:', data);
                 return data.text || data.response || null;
             } catch (error) {
-                console.error('Error:', error);
+                console.error('❌ Error en IA local:', error);
                 return null;
             }
         }
@@ -268,7 +270,7 @@
         sendBtn.addEventListener('click', handleSend);
         userInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleSend(); });
         
-        // Iniciar
+        // Iniciar verificación al cargar
         verificarIA();
     </script>
 </body>
