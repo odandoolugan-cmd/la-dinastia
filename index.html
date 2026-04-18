@@ -134,161 +134,40 @@
     </script>
 
     <!-- ============================================ -->
-    <!-- IA LOCAL - CONFIGURACIÓN (INTEGRADA)        -->
+    <!-- IA LOCAL - CÓDIGO CORREGIDO                  -->
     <!-- ============================================ -->
     <script>
         // Configuración de la IA local en tu teléfono
         const IA_CONFIG = {
-            ip: '192.168.100.34',   // ← IP de tu teléfono (actualiza si cambia)
+            ip: '192.168.100.34',
             puerto: '8005',
             modelo: 'deepseek-r1-distill-qwen-1.5b'
         };
         
-        // Función para preguntar a la IA local en tu teléfono
-        async function preguntarIA(pregunta) {
-            try {
-                console.log('📡 Enviando a IA local:', pregunta);
-                
-                const response = await fetch(`http://${IA_CONFIG.ip}:${IA_CONFIG.puerto}/ai/text`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': application/json' },
-                    body: JSON.stringify({
-                        prompt: `Eres un experto entrenador de fútbol. Responde de manera CONCISA, APASIONADA y ÚTIL. Máximo 4 oraciones. Pregunta: ${pregunta}`,
-                        model: IA_CONFIG.modelo,
-                        maxTokens: 500,
-                        temperature: 0.7
-                    })
-                });
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP ${response.status}`);
-                }
-                
-                const data = await response.json();
-                console.log('✅ Respuesta IA local:', data);
-                
-                return data.text || data.response || null;
-            } catch (error) {
-                console.error('❌ Error en IA local:', error);
-                return null;
-            }
-        }
-        
-        // Función para verificar si la IA local está disponible
-        async function verificarIA() {
-            try {
-                const response = await fetch(`http://${IA_CONFIG.ip}:${IA_CONFIG.puerto}/status`);
-                const data = await response.json();
-                const disponible = (data.status === 'running' && data.ai?.isEnabled === true);
-                console.log('🔌 IA Local disponible:', disponible);
-                return disponible;
-            } catch (error) {
-                console.log('🔌 IA Local no disponible:', error);
-                return false;
-            }
-        }
-    </script>
-    
-    <script>
-        // ============================================
-        // ORÁCULO 100% FUTBOLERO CON IA LOCAL
-        // ============================================
-        
+        let iaLocalActiva = false;
         const chatArea = document.getElementById('chat-area');
         const userInput = document.getElementById('userInput');
         const sendBtn = document.getElementById('sendBtn');
         
-        // Variable para saber si la IA local está disponible
-        let iaLocalDisponible = false;
+        // Respuestas de respaldo (fútbol)
+        const respuestasBackup = [
+            "🔥 Si te presionan alto, juega en largo al 9 o busca a los laterales en velocidad.",
+            "📋 El 4-3-3 te da salida y amplitud. Necesitas extremos que desequilibren.",
+            "🎯 El 9 de área necesita centro y compañía. Si juega solo, no sirve.",
+            "🧠 En una final, los primeros 15 minutos son vitales. No te expongas.",
+            "⚡ La clave de la presión es no correr como locos. Bloquea líneas de pase.",
+            "📊 Analiza datos: posesión no es dominio. Mira xG, tiros a puerta.",
+            "🛡️ Línea de 4 en zona: disciplina táctica. El fuera de juego es un arte.",
+            "🎚️ Doble pivote: uno de contención y uno de salida. Equilibrio total.",
+            "🏟️ Partido de ida y vuelta: en casa no te confíes. Fuera, un gol de visitante vale oro.",
+            "🎙️ Rueda de prensa: no regales titulares. Protege a tu plantel."
+        ];
         
-        // BASE DE RESPUESTAS FUTBOLERAS (RESPALDO si no hay IA local)
-        const respuestasFutboleras = {
-            formaciones: [
-                "📋 El 4-3-3 te da salida y amplitud. Necesitas extremos que desequilibren y un 9 de área.",
-                "📋 4-4-2 en rombo: recuperación en medio campo y juego asociativo. El '10' tiene que ser talentoso.",
-                "📋 5-3-2 es para partidos de eliminatoria. Línea de 5 firme, laterales con proyección y dos puntas que se entiendan.",
-                "📋 3-4-3 solo si tus centrales son rápidos y salen jugando. Es un sistema de riesgo pero muy ofensivo.",
-                "📋 El 4-2-3-1 es el más equilibrado. Doble pivote para proteger y tres volantes creativos detrás del 9."
-            ],
-            presion: [
-                "🔥 Presión alta: sincronización total. Cuando el rival saca de meta, tus delanteros saltan juntos.",
-                "⚡ Si te presionan alto, juega en largo al 9 de espaldas o busca a los laterales en velocidad.",
-                "🔄 Contra presión: al perder el balón, tienes 5 segundos para recuperar o replegar. Simeone lo domina.",
-                "🧠 La clave de la presión es no correr como locos. Bloquea líneas de pase y fuerza error.",
-                "📐 Salida de balón contra presión: juega con 3 atrás y un mediocentro que baje al espacio."
-            ],
-            delanteros: [
-                "🎯 El 9 de área necesita centro y compañía. Si juega solo, aislado, no sirve.",
-                "💨 Delantero rápido al espacio: tu mediocampo debe tener pase filtrado. Ejemplo: Mbappé o Haaland.",
-                "🦵 Delantero de espaldas: aguanta, descarga y gira. Como Benzema o Lewandowski.",
-                "🤝 Pareja de ataque: un '9' de área y un 'second striker' que se asocie. Histórico: Romario-Bebeto.",
-                "⭐ Delantero goleador: necesita 5 o 6 ocasiones por partido. Si tu equipo no genera, no hará magia."
-            ],
-            mediocampo: [
-                "🎚️ Doble pivote: uno de contención (5) y uno de salida (8). Como Busquets-Xavi o Casemiro-Modric.",
-                "🔗 Volante de enganche: el '10' clásico. Riquelme, Özil. Libertad táctica pero responsabilidad defensiva.",
-                "🏃‍♂️ Box to box: corre los 90 minutos. Llega al área rival y vuelve a defender. Ejemplo: Vidal, Valverde.",
-                "🧠 El mediocentro organizador: toca, pausa y cambia el juego. Kroos o Pirlo. Brújula del equipo.",
-                "⚔️ Recuperador puro: solo piensa en robar y dar simple. Makélélé o Kanté. El equilibrio del equipo."
-            ],
-            defensa: [
-                "🛡️ Línea de 4 en zona: disciplina táctica. El fuera de juego es un arte que se entrena.",
-                "💪 Central con salida: Laporte o Van Dijk. No solo defiende, construye desde atrás.",
-                "🏃‍♂️ Lateral con proyección: como Marcelo o Alves. Sube al ataque pero vigila su espalda.",
-                "⚠️ Defensa adelantada: solo si tienes centrales rápidos y un portero que barre. Riesgo alto.",
-                "🧤 Portero moderno: juega con los pies y sale en uno contra uno. Ederson, Neuer, Courtois."
-            ],
-            finales: [
-                "🏟️ En una final, los primeros 15 minutos son vitales. No te expongas, estudia al rival.",
-                "⏱️ Minuto 70-80: momento clave. Los cambios pueden decidir. Guarda una bala en el banquillo.",
-                "🥇 Penales: entrena mentalidad. Tu lista de 5 lanzadores, orden fijo. El portero debe estudiar al rival.",
-                "📿 En finales, la experiencia pesa. Juega con los que ya la vivieron. No inventes.",
-                "🌡️ Control emocional: hablar en el vestuario, mirar a los ojos. Calma y convicción."
-            ],
-            mentalidad: [
-                "🧠 Gestión del vestuario: los líderes deben hablar. Reuniones cortas, mensajes claros.",
-                "😤 Cuando vas perdiendo: pausa, orden y un gol te mete en partido. No te desesperes.",
-                "🙌 Motivación: cada jugador es diferente. Unos necesitan charla, otros concentración.",
-                "🔄 Rotaciones: partido cada 3 días. Tus titulares necesitan descanso. Confía en el banquillo.",
-                "📈 Racha de resultados: no te duermas. Ganar dos seguidos no es dinastía, constancia es la clave."
-            ],
-            general: [
-                "🧐 Mira, técnico: el fútbol es simple. El que hace menos errores, gana. Entrena las jugadas de estrategia.",
-                "📹 Estudia al rival: busca su punto débil. Si su lateral derecho flaquea, ataca por ahí 20 veces.",
-                "🎙️ Rueda de prensa: no regales titulares. Protege a tu plantel, los errores se corrigen adentro.",
-                "🔄 Partido de ida y vuelta: en casa, no te confíes. Fuera, un gol de visitante vale oro.",
-                "📊 Analiza datos: posesión no es dominio. Mira xG, tiros a puerta, recuperaciones. Eso es real."
-            ]
-        };
-
-        function detectarCategoria(pregunta) {
-            const p = pregunta.toLowerCase();
-            
-            if (p.includes('formacion') || p.includes('sistema') || p.includes('esquema') || p.includes('4-3-3') || p.includes('4-4-2') || p.includes('5-3-2') || p.includes('3-4-3')) 
-                return 'formaciones';
-            if (p.includes('presion') || p.includes('presión') || p.includes('salida') || p.includes('bloque') || p.includes('contra presión')) 
-                return 'presion';
-            if (p.includes('delantero') || p.includes('9') || p.includes('gol') || p.includes('atacante') || p.includes('punta')) 
-                return 'delanteros';
-            if (p.includes('mediocampo') || p.includes('volante') || p.includes('pivote') || p.includes('enganche') || p.includes('creativo')) 
-                return 'mediocampo';
-            if (p.includes('defensa') || p.includes('central') || p.includes('lateral') || p.includes('linea de') || p.includes('portero')) 
-                return 'defensa';
-            if (p.includes('final') || p.includes('titulo') || p.includes('copa') || p.includes('campeon') || p.includes('orejona')) 
-                return 'finales';
-            if (p.includes('mentalidad') || p.includes('motivar') || p.includes('vestuario') || p.includes('rotacion') || p.includes('racha')) 
-                return 'mentalidad';
-            
-            return 'general';
+        function getRespuestaBackup() {
+            return respuestasBackup[Math.floor(Math.random() * respuestasBackup.length)];
         }
-
-        function obtenerRespuestaLocal(pregunta) {
-            const categoria = detectarCategoria(pregunta);
-            const respuestas = respuestasFutboleras[categoria];
-            return respuestas[Math.floor(Math.random() * respuestas.length)];
-        }
-
-        function addMessage(text, isUser = false) {
+        
+        function addMessage(text, isUser) {
             const messageDiv = document.createElement('div');
             messageDiv.className = `message ${isUser ? 'user-msg' : 'ia-msg'}`;
             const bubble = document.createElement('div');
@@ -298,21 +177,65 @@
             chatArea.appendChild(messageDiv);
             chatArea.scrollTop = chatArea.scrollHeight;
         }
-
+        
         function showTyping() {
             const typingDiv = document.createElement('div');
             typingDiv.className = 'message ia-msg';
             typingDiv.id = 'typing-indicator';
-            typingDiv.innerHTML = '<div class="msg-bubble"><span class="typing-dots">🧠 Analizando táctica con IA</span></div>';
+            typingDiv.innerHTML = '<div class="msg-bubble"><span class="typing-dots">🧠 Analizando táctica</span></div>';
             chatArea.appendChild(typingDiv);
             chatArea.scrollTop = chatArea.scrollHeight;
         }
-
+        
         function removeTyping() {
             const typing = document.getElementById('typing-indicator');
             if (typing) typing.remove();
         }
-
+        
+        // Verificar conexión con el teléfono
+        async function verificarIA() {
+            try {
+                const response = await fetch(`http://${IA_CONFIG.ip}:${IA_CONFIG.puerto}/status`);
+                const data = await response.json();
+                iaLocalActiva = (data.status === 'running' && data.ai?.isEnabled === true);
+                console.log('🔌 IA Local activa:', iaLocalActiva);
+                if (iaLocalActiva) {
+                    addMessage("🧠✨ ¡IA Local conectada! Usando la IA de mi teléfono.", false);
+                } else {
+                    addMessage("⚠️ Usando respuestas básicas. Para activar la IA local, abre AI Phone Server en tu teléfono.", false);
+                }
+                return iaLocalActiva;
+            } catch (error) {
+                iaLocalActiva = false;
+                console.log('🔌 No se pudo conectar al teléfono');
+                addMessage("⚠️ No se pudo conectar a la IA del teléfono. Usando respuestas básicas.", false);
+                return false;
+            }
+        }
+        
+        // Preguntar a la IA del teléfono
+        async function preguntarAIphone(pregunta) {
+            try {
+                const response = await fetch(`http://${IA_CONFIG.ip}:${IA_CONFIG.puerto}/ai/text`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        prompt: `Eres un experto entrenador de fútbol. Responde de manera CONCISA y ÚTIL (máximo 3 oraciones) a: ${pregunta}`,
+                        model: IA_CONFIG.modelo,
+                        maxTokens: 300,
+                        temperature: 0.7
+                    })
+                });
+                
+                if (!response.ok) return null;
+                const data = await response.json();
+                return data.text || data.response || null;
+            } catch (error) {
+                console.error('Error:', error);
+                return null;
+            }
+        }
+        
         async function handleSend() {
             const question = userInput.value.trim();
             if (!question) return;
@@ -320,53 +243,33 @@
             addMessage(question, true);
             userInput.value = '';
             sendBtn.disabled = true;
-            
             showTyping();
             
             let respuesta = null;
             
-            // Intentar usar IA local si está disponible
-            if (iaLocalDisponible) {
-                respuesta = await preguntarIA(question);
+            if (iaLocalActiva) {
+                respuesta = await preguntarAIphone(question);
             }
             
             removeTyping();
             
-            // Si la IA local no respondió, usar respaldo local
-            if (!respuesta || respuesta === null) {
-                respuesta = obtenerRespuestaLocal(question);
-                const emojisFutbol = ['⚽', '🥅', '📋', '🎯', '🔥', '💪', '🧠', '👟'];
-                if (Math.random() > 0.6) {
-                    respuesta = emojisFutbol[Math.floor(Math.random() * emojisFutbol.length)] + " " + respuesta;
+            if (!respuesta) {
+                respuesta = getRespuestaBackup();
+                if (!iaLocalActiva) {
+                    respuesta = "📱 " + respuesta;
                 }
-                if (!iaLocalDisponible) {
-                    respuesta = "📱 [Modo local] " + respuesta;
-                }
-            } else {
-                respuesta = "🧠 " + respuesta;
             }
             
             addMessage(respuesta, false);
             sendBtn.disabled = false;
             userInput.focus();
         }
-
+        
         sendBtn.addEventListener('click', handleSend);
         userInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleSend(); });
         
-        // Inicializar: verificar IA local al cargar
-        (async function iniciar() {
-            iaLocalDisponible = await verificarIA();
-            if (iaLocalDisponible) {
-                addMessage("🧠✨ ¡IA Local conectada! Mis respuestas ahora son más inteligentes y personalizadas desde tu teléfono.", false);
-            } else {
-                addMessage("⚠️ IA Local no disponible. Usando modo básico. Asegúrate que la app AI Phone Server esté abierta en tu teléfono y en la misma red WiFi.", false);
-            }
-        })();
-        
-        setTimeout(() => {
-            addMessage("⚽ Recuerda: el fútbol no se inventa, se trabaja. ¿Neurona táctica hoy? Pregúntame.", false);
-        }, 3000);
+        // Iniciar
+        verificarIA();
     </script>
 </body>
 </html>
