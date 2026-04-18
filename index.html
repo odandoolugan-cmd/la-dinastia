@@ -133,16 +133,39 @@
         })({})
     </script>
 
+    <!-- IA LOCAL - Conectar con el teléfono -->
+    <script src="ia.js"></script>
+    
     <script>
         // ============================================
-        // ORÁCULO 100% FUTBOLERO
+        // ORÁCULO 100% FUTBOLERO CON IA LOCAL
         // ============================================
         
         const chatArea = document.getElementById('chat-area');
         const userInput = document.getElementById('userInput');
         const sendBtn = document.getElementById('sendBtn');
-
-        // BASE DE RESPUESTAS FUTBOLERAS
+        
+        // Variable para saber si la IA local está disponible
+        let iaLocalDisponible = false;
+        
+        // Verificar si la IA local está activa
+        async function verificarIA() {
+            try {
+                const response = await fetch(`http://${IA_CONFIG.ip}:${IA_CONFIG.puerto}/status`);
+                const data = await response.json();
+                iaLocalDisponible = (data.status === 'running' && data.ai?.isEnabled === true);
+                if (iaLocalDisponible) {
+                    addMessage("🧠✨ ¡IA Local conectada! Mis respuestas ahora son más inteligentes y personalizadas.", false);
+                }
+                return iaLocalDisponible;
+            } catch (error) {
+                iaLocalDisponible = false;
+                addMessage("⚠️ IA Local no disponible. Usando modo básico. Asegúrate que la app AI Phone Server esté abierta en tu teléfono.", false);
+                return false;
+            }
+        }
+        
+        // BASE DE RESPUESTAS FUTBOLERAS (RESPALDO)
         const respuestasFutboleras = {
             formaciones: [
                 "📋 El 4-3-3 te da salida y amplitud. Necesitas extremos que desequilibren y un 9 de área.",
@@ -223,16 +246,30 @@
             return 'general';
         }
 
-        function obtenerRespuesta(pregunta) {
+        function obtenerRespuestaLocal(pregunta) {
             const categoria = detectarCategoria(pregunta);
             const respuestas = respuestasFutboleras[categoria];
-            const respuestaBase = respuestas[Math.floor(Math.random() * respuestas.length)];
-            
-            if (pregunta.toLowerCase().includes('como') || pregunta.toLowerCase().includes('qué')) {
-                return respuestaBase;
+            return respuestas[Math.floor(Math.random() * respuestas.length)];
+        }
+        
+        // Función para preguntar a la IA local
+        async function preguntarIA(pregunta) {
+            try {
+                const response = await fetch(`http://${IA_CONFIG.ip}:${IA_CONFIG.puerto}/ai/text`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        prompt: `Eres un experto en fútbol y táctica deportiva. Responde de manera concisa, apasionada y útil sobre: ${pregunta}`,
+                        model: IA_CONFIG.modelo,
+                        maxTokens: 500,
+                        temperature: 0.7
+                    })
+                });
+                const data = await response.json();
+                return data.text || data.response || null;
+            } catch (error) {
+                return null;
             }
-            
-            return respuestaBase;
         }
 
         function addMessage(text, isUser = false) {
@@ -250,7 +287,7 @@
             const typingDiv = document.createElement('div');
             typingDiv.className = 'message ia-msg';
             typingDiv.id = 'typing-indicator';
-            typingDiv.innerHTML = '<div class="msg-bubble"><span class="typing-dots">📋 Analizando táctica</span></div>';
+            typingDiv.innerHTML = '<div class="msg-bubble"><span class="typing-dots">🧠 Analizando táctica con IA</span></div>';
             chatArea.appendChild(typingDiv);
             chatArea.scrollTop = chatArea.scrollHeight;
         }
@@ -270,23 +307,37 @@
             
             showTyping();
             
-            setTimeout(() => {
-                removeTyping();
-                let respuesta = obtenerRespuesta(question);
-                
+            let respuesta = null;
+            
+            // Intentar usar IA local primero
+            if (iaLocalDisponible) {
+                respuesta = await preguntarIA(question);
+            }
+            
+            removeTyping();
+            
+            // Si la IA local no respondió, usar respuestas locales
+            if (!respuesta) {
+                respuesta = obtenerRespuestaLocal(question);
                 const emojisFutbol = ['⚽', '🥅', '📋', '🎯', '🔥', '💪', '🧠', '👟'];
                 if (Math.random() > 0.6) {
                     respuesta = emojisFutbol[Math.floor(Math.random() * emojisFutbol.length)] + " " + respuesta;
                 }
-                
-                addMessage(respuesta, false);
-                sendBtn.disabled = false;
-                userInput.focus();
-            }, 1000);
+                if (!iaLocalDisponible) {
+                    respuesta = "📱 " + respuesta;
+                }
+            }
+            
+            addMessage(respuesta, false);
+            sendBtn.disabled = false;
+            userInput.focus();
         }
 
         sendBtn.addEventListener('click', handleSend);
         userInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleSend(); });
+        
+        // Verificar IA local al cargar
+        verificarIA();
         
         setTimeout(() => {
             addMessage("⚽ Recuerda: el fútbol no se inventa, se trabaja. ¿Neurona táctica hoy? Pregúntame.", false);
