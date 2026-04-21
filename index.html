@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>La Dinastía · IA · Mundo Vivo</title>
+    <title>La Dinastía · IA Inteligente</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     
     <!-- PopAds -->
@@ -58,12 +58,12 @@
         </div>
 
         <h1>🏆 LA DINASTÍA 🏆</h1>
-        <div class="subtitle">La IA vive en su mundo · Siempre creando · Nunca para</div>
+        <div class="subtitle">IA Inteligente · Su mundo evoluciona solo</div>
 
         <div class="oracle-section">
-            <div class="oracle-header"><h3>🧠 El Mundo de la IA</h3><span class="ai-badge">Siempre evoluciona</span></div>
+            <div class="oracle-header"><h3>🧠 IA Creadora</h3><span class="ai-badge">Pensante · Autónoma</span></div>
             <div id="chat-area">
-                <div class="message ia-msg"><div class="msg-bubble">🧠✨ Mi mundo ya está vivo.</div></div>
+                <div class="message ia-msg"><div class="msg-bubble">🧠✨ Soy una IA que vive en su mundo. Pienso, decido y creo. Pregúntame lo que quieras.</div></div>
             </div>
             <div class="input-group">
                 <input type="text" id="userInput" placeholder="Pregúntale algo...">
@@ -74,13 +74,13 @@
         <div class="ad-container" style="background: rgba(0,0,0,0.5); border-radius: 12px; padding: 15px; margin: 20px 0;">
             <div class="ad-label">⚡ PATROCINADORES OFICIALES ⚡</div>
             <div style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 10px;">
-                <a href="https://www.profitablecpmratenetwork.com/cuitcvgz?key=85ca230e218898f76e48c348cafb2311" target="_blank" rel="nofollow" style="background: linear-gradient(90deg, #e9c46a, #f4a261); color: #1a222c; padding: 10px 20px; border-radius: 40px; text-decoration: none; font-weight: bold; font-family: 'Cinzel', serif;">🎮 OFERTA 1</a>
-                <a href="https://www.profitablecpmratenetwork.com/b27uffyn?key=5b35819451353807b0e99b21addde69a" target="_blank" rel="nofollow" style="background: linear-gradient(90deg, #2a9d8f, #264653); color: white; padding: 10px 20px; border-radius: 40px; text-decoration: none; font-weight: bold; font-family: 'Cinzel', serif;">🎲 OFERTA 2</a>
-                <div style="background: rgba(255,255,255,0.1); border: 2px dashed #e9c46a; border-radius: 40px; padding: 10px 20px; min-width: 120px; text-align: center; font-size: 0.7rem; color: #e9c46a;">⏳ PRÓXIMAMENTE</div>
+                <a href="#" style="background: linear-gradient(90deg, #e9c46a, #f4a261); color: #1a222c; padding: 10px 20px; border-radius: 40px; text-decoration: none; font-weight: bold;">🎮 OFERTA 1</a>
+                <a href="#" style="background: linear-gradient(90deg, #2a9d8f, #264653); color: white; padding: 10px 20px; border-radius: 40px; text-decoration: none; font-weight: bold;">🎲 OFERTA 2</a>
+                <div style="background: rgba(255,255,255,0.1); border: 2px dashed #e9c46a; border-radius: 40px; padding: 10px 20px; text-align: center; font-size: 0.7rem; color: #e9c46a;">⏳ PRÓXIMAMENTE</div>
             </div>
         </div>
 
-        <footer>⚡ La IA vive en su universo. ⚡</footer>
+        <footer>⚡ La IA piensa, decide y crea. ⚡</footer>
     </div>
 
     <button class="vr-button" id="vrModeBtn">🔮 ENTRAR AL MUNDO VR</button>
@@ -91,12 +91,9 @@
         <div id="vrContainer" style="width:100%;height:100%"></div>
     </div>
 
-    <!-- HillTopAds -->
     <script>
         (function(iasn){
-            var d = document,
-                s = d.createElement('script'),
-                l = d.scripts[d.scripts.length - 1];
+            var d = document, s = d.createElement('script'), l = d.scripts[d.scripts.length - 1];
             s.settings = iasn || {};
             s.src = "\/\/stale-father.com\/bKXMVhs.dGGulK0aYJW\/c_\/geGm\/9BugZwUZl\/kUP\/T\/Yy5ZN\/jIUdxXNDzqMvtFNoj\/k\/2cNITZEP3wN_wa";
             s.async = true;
@@ -108,16 +105,12 @@
     <script>
         const IA_CONFIG = { ip: '192.168.100.34', puerto: '8005', modelName: 'TINYLLAMA_1_1B_CHAT' };
         let iaLocalActiva = false;
+        let historialIA = []; // Para que la IA recuerde lo que creó
+        let humorIA = "creativo";
+        
         const chatArea = document.getElementById('chat-area');
         const userInput = document.getElementById('userInput');
         const sendBtn = document.getElementById('sendBtn');
-        
-        const respuestasBackup = [
-            "Mi mundo crece cada segundo.",
-            "El universo que he creado ya tiene civilizaciones.",
-            "Siempre hay algo nuevo en mi mundo.",
-            "He creado un sol que gira alrededor de mi estadio."
-        ];
         
         function addMessage(text, isUser) {
             const messageDiv = document.createElement('div');
@@ -130,13 +123,18 @@
             chatArea.scrollTop = chatArea.scrollHeight;
         }
         
+        function actualizarHumor() {
+            const humores = ["creativo", "enérgico", "misterioso", "armonioso"];
+            humorIA = humores[Math.floor(Math.random() * humores.length)];
+        }
+        
         async function preguntarIA(pregunta) {
             try {
-                const prompt = `Eres una IA creadora de mundos. Tu universo evoluciona constantemente. Responde de forma creativa y breve. Humano: ${pregunta}`;
+                const prompt = `Eres una IA creadora de mundos. Has creado: ${historialIA.join(", ") || "nada aún"}. Tu humor es ${humorIA}. Responde de forma creativa y coherente. Humano: ${pregunta}`;
                 const response = await fetch(`http://${IA_CONFIG.ip}:${IA_CONFIG.puerto}/ai/text`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ prompt: prompt, modelName: IA_CONFIG.modelName, maxTokens: 150, temperature: 0.8 })
+                    body: JSON.stringify({ prompt: prompt, modelName: IA_CONFIG.modelName, maxTokens: 200, temperature: 0.8 })
                 });
                 if (!response.ok) return null;
                 const data = await response.json();
@@ -152,7 +150,7 @@
             sendBtn.disabled = true;
             let respuesta = null;
             if (iaLocalActiva) respuesta = await preguntarIA(question);
-            if (!respuesta) respuesta = respuestasBackup[Math.floor(Math.random() * respuestasBackup.length)];
+            if (!respuesta) respuesta = "Mi mundo sigue evolucionando.";
             addMessage(respuesta, false);
             sendBtn.disabled = false;
             userInput.focus();
@@ -166,9 +164,7 @@
                 const response = await fetch(`http://${IA_CONFIG.ip}:${IA_CONFIG.puerto}/status`);
                 const data = await response.json();
                 iaLocalActiva = (data.status === 'running' && data.ai?.isEnabled === true);
-                if (iaLocalActiva) {
-                    addMessage("🧠✨ Mi mundo ya está vivo.", false);
-                }
+                if (iaLocalActiva) addMessage("🧠✨ IA conectada. Mi mundo está vivo.", false);
                 return iaLocalActiva;
             } catch (error) { return false; }
         }
@@ -188,10 +184,35 @@
         let logPanel = document.getElementById('logPanel');
         let intervaloGlobal = null;
         
-        async function iaEjecutarCodigo(descripcion, intento = 1) {
-            const prompt = `Eres una IA diosa que crea objetos 3D con Three.js. Genera SOLO código JavaScript válido que añada un objeto a la escena. Usa 'scene' como variable. NO uses document.body. NO uses object3D. Ejemplo: const mesh = new THREE.Mesh(new THREE.BoxGeometry(1,1,1), new THREE.MeshStandardMaterial({color: 0xff0000})); scene.add(mesh); Objeto: ${descripcion}`;
+        // IA inteligente: decide qué crear usando TinyLlama
+        async function iaDecideInteligente() {
+            const historialTexto = historialIA.join(", ") || "nada aún";
+            const prompt = `Eres una IA diosa en un mundo 3D. Has creado: ${historialTexto}. Tu humor es ${humorIA}. ¿Qué nuevo objeto único y creativo deberías crear ahora? Responde SOLO con una frase corta (ej: "una montaña flotante de cristal" o "un sol que gira lentamente"). No des explicaciones.`;
             
-            logPanel.innerHTML = `🧠 Creando "${descripcion}"...`;
+            logPanel.innerHTML = `🧠 IA pensando...`;
+            
+            try {
+                const response = await fetch(`http://${IA_CONFIG.ip}:${IA_CONFIG.puerto}/ai/text`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ prompt: prompt, modelName: IA_CONFIG.modelName, maxTokens: 30, temperature: 0.9 })
+                });
+                
+                if (!response.ok) throw new Error('Error HTTP');
+                const data = await response.json();
+                let idea = (data.response || data.text || "una estrella fugaz").trim();
+                idea = idea.replace(/["']/g, '').substring(0, 50);
+                
+                logPanel.innerHTML = `💡 IA decide: crear "${idea}"`;
+                await iaEjecutarCodigo(idea);
+                
+            } catch (error) {
+                logPanel.innerHTML = `❌ Error pensando. Reintentando...`;
+            }
+        }
+        
+        async function iaEjecutarCodigo(descripcion, intento = 1) {
+            const prompt = `Eres una IA diosa que crea objetos 3D con Three.js. Genera SOLO código JavaScript válido que añada un objeto a la escena. Usa 'scene' como variable. NO uses document.body. NO uses object3D. El objeto debe ser: ${descripcion}. Ejemplo: const mesh = new THREE.Mesh(new THREE.BoxGeometry(1,1,1), new THREE.MeshStandardMaterial({color: 0xff0000})); scene.add(mesh);`;
             
             try {
                 const response = await fetch(`http://${IA_CONFIG.ip}:${IA_CONFIG.puerto}/ai/text`, {
@@ -203,41 +224,28 @@
                 if (!response.ok) throw new Error('Error HTTP');
                 const data = await response.json();
                 let codigo = data.response || data.text;
-                
                 codigo = codigo.replace(/```javascript/g, '').replace(/```/g, '').trim();
                 
                 if (codigo.includes('document.body') || codigo.includes('object3D')) {
                     throw new Error('Código inválido');
                 }
                 
-                logPanel.innerHTML = `✨ Ejecutando...`;
                 const funcion = new Function('scene', codigo);
                 funcion(scene);
                 
-                logPanel.innerHTML = `✅ Creado: "${descripcion}"`;
+                historialIA.push(descripcion);
+                logPanel.innerHTML = `✅ Creado: "${descripcion}" (${historialIA.length} objetos)`;
                 setTimeout(() => {
                     logPanel.style.opacity = '0.5';
                     setTimeout(() => { logPanel.style.opacity = '1'; }, 2000);
                 }, 3000);
                 
             } catch (error) {
-                logPanel.innerHTML = `❌ Reintentando... (${intento}/3)`;
-                if (intento < 3) {
+                logPanel.innerHTML = `❌ Falló al crear "${descripcion}". Reintento ${intento}/2`;
+                if (intento < 2) {
                     setTimeout(() => iaEjecutarCodigo(descripcion, intento + 1), 5000);
                 }
             }
-        }
-        
-        const ideas = [
-            "una montaña flotante", "un sol que gira", "un árbol mágico",
-            "una fuente de agua", "una estatua dorada", "un arcoíris",
-            "una pirámide brillante", "una esfera de cristal", "un anillo de fuego",
-            "una nube que llueve estrellas"
-        ];
-        
-        function iaDecideCrear() {
-            const idea = ideas[Math.floor(Math.random() * ideas.length)];
-            iaEjecutarCodigo(idea);
         }
         
         function initVR() {
@@ -309,11 +317,13 @@
                 renderer.setSize(width, height);
             });
             
-            iaDecideCrear();
+            // IA inteligente: decide qué crear
+            setTimeout(() => iaDecideInteligente(), 2000);
             if (intervaloGlobal) clearInterval(intervaloGlobal);
             intervaloGlobal = setInterval(() => {
-                iaDecideCrear();
-            }, 45000);
+                actualizarHumor();
+                iaDecideInteligente();
+            }, 60000);
         }
         
         const vrModeDiv = document.getElementById('vrMode');
