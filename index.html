@@ -233,31 +233,6 @@
         if (GROQ_API_KEY === "__GROQ_API_KEY__") {
             iaStatusSpan.innerHTML = "⚠️ Configurando API key...";
             iaStatusSpan.style.color = "#fbbf24";
-        } else {
-            // Probar conexión
-            fetch(GROQ_URL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${GROQ_API_KEY}`
-                },
-                body: JSON.stringify({
-                    model: MODEL,
-                    messages: [{ role: "user", content: "OK" }],
-                    max_tokens: 5
-                })
-            }).then(res => {
-                if (res.ok) {
-                    iaStatusSpan.innerHTML = "✅ IA conectada (Groq)";
-                    iaStatusSpan.style.color = "#10b981";
-                } else {
-                    iaStatusSpan.innerHTML = "⚠️ Error de API key";
-                    iaStatusSpan.style.color = "#ef4444";
-                }
-            }).catch(() => {
-                iaStatusSpan.innerHTML = "⚠️ Error de conexión";
-                iaStatusSpan.style.color = "#fbbf24";
-            });
         }
     </script>
 
