@@ -20,22 +20,22 @@ jobs:
         run: |
           echo "=== Archivos en el repositorio ==="
           ls -la
-          echo "=== Buscando dinastia.html ==="
-          ls -la dinastia.html || echo "dinastia.html no encontrado en raiz"
+          echo "=== Buscando index.html ==="
+          ls -la index.html || echo "index.html no encontrado"
 
-      - name: Inject API Key into dinastia.html
+      - name: Inject API Key into index.html
         run: |
-          if [ -f "dinastia.html" ]; then
-            sed -i "s|__GROQ_API_KEY__|${{ secrets.GROQ_API_KEY }}|g" dinastia.html
-            echo "✅ API key inyectada en dinastia.html"
+          if [ -f "index.html" ]; then
+            sed -i "s|__GROQ_API_KEY__|${{ secrets.GROQ_API_KEY }}|g" index.html
+            echo "✅ API key inyectada en index.html"
           else
-            echo "❌ ERROR: No se encontró dinastia.html"
+            echo "❌ ERROR: No se encontró index.html"
             exit 1
           fi
           
       - name: Verify injection
         run: |
-          if grep -q "__GROQ_API_KEY__" dinastia.html; then
+          if grep -q "__GROQ_API_KEY__" index.html; then
             echo "⚠️ El marcador aún está presente"
             exit 1
           else
