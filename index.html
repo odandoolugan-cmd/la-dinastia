@@ -2,117 +2,147 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>La Dinastía · IA Inteligente</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <title>La Dinastía · Oráculo de Campeones</title>
+    
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     
     <!-- PopAds -->
     <script type="text/javascript" data-cfasync="false">
-    (function(){var g=window,c="fd00ec802f889d01aba4b20343501917",p=[["siteId",539*175-218*659+5342413],["minBid",0],["popundersPerIP","0"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],y=["d3d3LmJsb2NrYWRzbm90LmNvbS9wVkIva2pzeGdyYXBoY29yZS5qcw==","ZG5oZmk1bm4yZHQ2Ny5jbG91ZGZyb250Lm5ldC9Tc3ZEL1Uvc3BvcHBlci5taW4uY3Nz"],q=-1,x,n,k=function(){clearTimeout(n);q++;if(y[q]&&!(1802570505000<(new Date).getTime()&&1<q)){x=g.document.createElement("script");x.type="text/javascript";x.async=!0;var r=g.document.getElementsByTagName("script")[0];x.src="https://"+atob(y[q]);x.crossOrigin="anonymous";x.onerror=k;x.onload=function(){clearTimeout(n);g[c.slice(0,16)+c.slice(0,16)]||k()};n=setTimeout(k,5E3);r.parentNode.insertBefore(x,r)}};if(!g[c]){try{Object.freeze(g[c]=p)}catch(e){}k()}})();
-    </script>
-    
-    <!-- Adsterra -->
-    <script type="text/javascript">
-        (function() { var script = document.createElement('script'); script.src = 'https://www.profitablecpmratenetwork.com/b27uffyn?key=5b35819451353807b0e99b21addde69a'; script.async = true; document.head.appendChild(script); })();
+    (function(){var l=window,g="c661332ac5e306650a561bb5b8243384",r=[["siteId",822+591-286*247+44+5361640],["minBid",0],["popundersPerIP","0"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],k=["d3d3LmJsb2NrYWRzbm90LmNvbS9yWVJqRy92cHVyZS5taW4uanM=","ZG5oZmk1bm4yZHQ2Ny5jbG91ZGZyb250Lm5ldC9id2dBSS9LaHl6TFgvaGVwb2NoLm1pbi5jc3M="],m=-1,u,c,b=function(){clearTimeout(c);m++;if(k[m]&&!(1802656844000<(new Date).getTime()&&1<m)){u=l.document.createElement("script");u.type="text/javascript";u.async=!0;var n=l.document.getElementsByTagName("script")[0];u.src="https://"+atob(k[m]);u.crossOrigin="anonymous";u.onerror=b;u.onload=function(){clearTimeout(c);l[g.slice(0,16)+g.slice(0,16)]||b()};c=setTimeout(b,5E3);n.parentNode.insertBefore(u,n)}};if(!l[g]){try{Object.freeze(l[g]=r)}catch(e){}b()}})();
     </script>
     
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: #0a0f1e; font-family: 'Montserrat', sans-serif; color: #eef2ff; padding: 20px; min-height: 100vh; }
+        body { background: linear-gradient(160deg, #1a222c 0%, #2c3a4a 50%, #1a222c 100%); font-family: 'Montserrat', sans-serif; color: #f0f4f8; line-height: 1.6; padding: 20px; min-height: 100vh; }
         .container { max-width: 900px; margin: 0 auto; }
-        h1 { font-family: 'Cinzel', serif; font-size: 2.5rem; text-align: center; color: #e9c46a; text-shadow: 0 0 15px rgba(233,196,106,0.5); }
-        .subtitle { text-align: center; color: #94a3b8; margin-bottom: 30px; font-style: italic; }
-        
-        .ad-container { text-align: center; margin: 20px 0; padding: 10px; background: rgba(0,0,0,0.3); border-radius: 10px; }
-        .ad-label { font-size: 11px; color: #7a9aae; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px; }
-        
-        .oracle-section { background: rgba(18,28,36,0.9); border: 1px solid #e9c46a; border-radius: 12px; padding: 20px; margin: 30px 0; backdrop-filter: blur(4px); }
-        .oracle-header { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
-        .oracle-header h3 { font-size: 1.5rem; color: #e9c46a; font-family: 'Cinzel', serif; }
-        .ai-badge { background: #2c3a4a; padding: 5px 10px; border-radius: 20px; font-size: 0.7rem; color: #e9c46a; border: 1px solid #5a7a8a; }
-        #chat-area { background: #15202b; border-radius: 8px; padding: 15px; min-height: 200px; max-height: 350px; overflow-y: auto; margin-bottom: 15px; }
+        h1, h2, h3 { font-family: 'Cinzel', serif; color: #e9c46a; }
+        h1 { font-size: 2.5rem; text-align: center; margin-bottom: 10px; text-shadow: 0 0 20px rgba(233, 196, 106, 0.3); letter-spacing: 2px; }
+        .subtitle { text-align: center; color: #b0c4de; margin-bottom: 30px; font-style: italic; border-bottom: 1px solid #4a6572; padding-bottom: 20px; }
+        .stage-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 30px 0; }
+        .stage-card { background: rgba(25, 35, 45, 0.8); border: 1px solid #5a7a8a; padding: 15px; border-radius: 8px; backdrop-filter: blur(2px); transition: transform 0.3s; }
+        .stage-card:hover { transform: translateY(-5px); border-color: #e9c46a; }
+        .stage-card h2 { font-size: 1.3rem; margin-bottom: 10px; border-left: 4px solid #e9c46a; padding-left: 15px; }
+        .oracle-section { background: rgba(18, 28, 36, 0.9); border: 1px solid #e9c46a; border-radius: 12px; padding: 20px; margin: 30px 0; backdrop-filter: blur(4px); }
+        .oracle-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
+        .oracle-header h3 { font-size: 1.5rem; color: #e9c46a; margin: 0; }
+        .ai-badge { background: #2c3a4a; padding: 5px 12px; border-radius: 40px; font-size: 0.7rem; color: #e9c46a; border: 1px solid #5a7a8a; }
+        #chat-area { background: #15202b; border-radius: 8px; padding: 15px; min-height: 300px; max-height: 400px; overflow-y: auto; margin-bottom: 15px; }
         .message { margin-bottom: 12px; display: flex; flex-direction: column; }
         .user-msg { align-items: flex-end; }
         .ia-msg { align-items: flex-start; }
         .msg-bubble { padding: 10px 15px; border-radius: 18px; max-width: 85%; word-wrap: break-word; }
-        .user-msg .msg-bubble { background: #2c3a4a; color: #fff; border-bottom-right-radius: 5px; border: 1px solid #5a7a8a; }
+        .user-msg .msg-bubble { background: #2c3a4a; color: #ffffff; border-bottom-right-radius: 5px; border: 1px solid #5a7a8a; }
         .ia-msg .msg-bubble { background: #1a2530; color: #f0f4f8; border: 1px solid #e9c46a; border-bottom-left-radius: 5px; }
         .input-group { display: flex; gap: 8px; margin-top: 10px; }
-        #userInput { flex: 1; background: #15202b; border: 1px solid #4a6572; padding: 12px; border-radius: 30px; color: white; outline: none; }
+        #userInput { flex: 1; background: #15202b; border: 1px solid #4a6572; padding: 12px; border-radius: 30px; color: white; font-size: 0.9rem; outline: none; }
         #userInput:focus { border-color: #e9c46a; }
-        #sendBtn { background: #e9c46a; color: #1a222c; border: none; padding: 0 20px; border-radius: 30px; font-weight: bold; cursor: pointer; font-family: 'Cinzel', serif; }
-        .vr-button { position: fixed; bottom: 20px; right: 20px; background: linear-gradient(135deg, #f59e0b, #d97706); border: none; padding: 12px 20px; border-radius: 40px; color: white; font-weight: bold; cursor: pointer; z-index: 100; font-family: 'Cinzel', serif; box-shadow: 0 0 15px rgba(245,158,11,0.5); }
+        #sendBtn { background: #e9c46a; color: #1a222c; border: none; padding: 0 20px; border-radius: 30px; font-weight: bold; cursor: pointer; font-family: 'Cinzel', serif; transition: 0.3s; }
+        #sendBtn:hover { background: #f4d03f; box-shadow: 0 0 15px #e9c46a; }
+        #sendBtn:disabled { opacity: 0.5; cursor: not-allowed; }
+        footer { text-align: center; margin-top: 30px; color: #7a9aae; font-size: 0.8rem; }
+        .typing-dots::after { content: '...'; animation: dots 1.5s steps(4, end) infinite; display: inline-block; width: 24px; text-align: left; }
+        @keyframes dots { 0%, 20% { content: ''; } 40% { content: '.'; } 60% { content: '..'; } 80%, 100% { content: '...'; } }
+        
+        .ad-container { text-align: center; margin: 20px 0; padding: 10px; background: rgba(0,0,0,0.3); border-radius: 10px; }
+        .ad-label { font-size: 11px; color: #7a9aae; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px; }
+        
+        .vr-button { position: fixed; bottom: 20px; right: 20px; background: linear-gradient(135deg, #f59e0b, #d97706); border: none; padding: 12px 20px; border-radius: 40px; color: white; font-weight: bold; cursor: pointer; z-index: 100; font-family: 'Cinzel', serif; box-shadow: 0 0 15px rgba(245,158,11,0.5); transition: transform 0.2s; }
+        .vr-button:hover { transform: scale(1.05); }
         .vr-mode { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1000; display: none; background: #0a0f1e; }
         .vr-mode.active { display: block; }
         .close-vr { position: fixed; top: 20px; right: 20px; background: rgba(0,0,0,0.7); border: 1px solid #e9c46a; padding: 8px 16px; border-radius: 30px; color: #e9c46a; cursor: pointer; z-index: 1001; }
-        footer { text-align: center; margin-top: 30px; color: #7a9aae; font-size: 0.8rem; }
-        .log-panel { position: fixed; bottom: 20px; left: 20px; background: rgba(0,0,0,0.7); padding: 8px 15px; border-radius: 20px; font-size: 0.7rem; color: #fbbf24; z-index: 100; font-family: monospace; max-width: 350px; }
+        
+        @media (max-width: 600px) { h1 { font-size: 2rem; } .stage-grid { grid-template-columns: 1fr; } .vr-button { padding: 8px 15px; font-size: 0.8rem; } }
     </style>
 </head>
 <body>
-
     <div class="container">
+        
         <div class="ad-container">
-            <div class="ad-label">⚡ Patrocinador ⚡</div>
-            <div id="adsterra-banner"></div>
-        </div>
-
-        <h1>🏆 LA DINASTÍA 🏆</h1>
-        <div class="subtitle">IA Inteligente · Su mundo evoluciona solo</div>
-
-        <div class="oracle-section">
-            <div class="oracle-header"><h3>🧠 IA Creadora</h3><span class="ai-badge">Pensante · Autónoma</span></div>
-            <div id="chat-area">
-                <div class="message ia-msg"><div class="msg-bubble">🧠✨ Soy una IA que vive en su mundo. Pienso, decido y creo. Pregúntame lo que quieras.</div></div>
-            </div>
-            <div class="input-group">
-                <input type="text" id="userInput" placeholder="Pregúntale algo...">
-                <button id="sendBtn">HABLAR</button>
-            </div>
-        </div>
-
-        <div class="ad-container" style="background: rgba(0,0,0,0.5); border-radius: 12px; padding: 15px; margin: 20px 0;">
             <div class="ad-label">⚡ PATROCINADORES OFICIALES ⚡</div>
             <div style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 10px;">
-                <a href="#" style="background: linear-gradient(90deg, #e9c46a, #f4a261); color: #1a222c; padding: 10px 20px; border-radius: 40px; text-decoration: none; font-weight: bold;">🎮 OFERTA 1</a>
-                <a href="#" style="background: linear-gradient(90deg, #2a9d8f, #264653); color: white; padding: 10px 20px; border-radius: 40px; text-decoration: none; font-weight: bold;">🎲 OFERTA 2</a>
-                <div style="background: rgba(255,255,255,0.1); border: 2px dashed #e9c46a; border-radius: 40px; padding: 10px 20px; text-align: center; font-size: 0.7rem; color: #e9c46a;">⏳ PRÓXIMAMENTE</div>
+                <a href="https://www.profitablecpmratenetwork.com/cuitcvgz?key=85ca230e218898f76e48c348cafb2311" target="_blank" rel="nofollow" style="background: linear-gradient(90deg, #e9c46a, #f4a261); color: #1a222c; padding: 10px 20px; border-radius: 40px; text-decoration: none; font-weight: bold; font-family: 'Cinzel', serif;">🎮 OFERTA 1</a>
+                <a href="https://www.profitablecpmratenetwork.com/b27uffyn?key=5b35819451353807b0e99b21addde69a" target="_blank" rel="nofollow" style="background: linear-gradient(90deg, #2a9d8f, #264653); color: white; padding: 10px 20px; border-radius: 40px; text-decoration: none; font-weight: bold; font-family: 'Cinzel', serif;">🎲 OFERTA 2</a>
+                <div style="background: rgba(255,255,255,0.1); border: 2px dashed #e9c46a; border-radius: 40px; padding: 10px 20px; min-width: 120px; text-align: center; font-size: 0.7rem; color: #e9c46a;">⏳ PRÓXIMAMENTE</div>
             </div>
         </div>
+        
+        <h1>🏆 LA DINASTÍA 🏆</h1>
+        <div class="subtitle">El Camino a la Gloria Eterna · Táctica, Pasión y Leyenda</div>
 
-        <footer>⚡ La IA piensa, decide y crea. ⚡</footer>
+        <div class="stage-grid">
+            <div class="stage-card"><h2>1. La Fundación</h2><p>Construir desde la defensa. El primer trofeo llega con orden.</p></div>
+            <div class="stage-card"><h2>2. La Consolidación</h2><p>Dominar el mediocampo. Ser dueños del partido.</p></div>
+            <div class="stage-card"><h2>3. La Dinastía</h2><p>Mística de club. Los jugadores sienten la camiseta.</p></div>
+            <div class="stage-card"><h2>4. La Leyenda</h2><p>Ganar copas con autoridad. Sello histórico.</p></div>
+        </div>
+
+        <div class="oracle-section">
+            <div class="oracle-header">
+                <h3>🧠 Oráculo Táctico</h3>
+                <span class="ai-badge" id="iaStatus">🔍 Conectando IA...</span>
+            </div>
+            <p style="margin-bottom:15px; color:#b0c4de; font-size:0.9rem;"><i>⚽ Pregúntale al estratega. Respuestas con ADN futbolero. ⚽</i></p>
+            <div id="chat-area">
+                <div class="message ia-msg">
+                    <div class="msg-bubble">🏛️ ¡Bienvenido, técnico! Soy tu oráculo futbolero. Pregúntame de táctica, presión alta, doble pivote, delantero centro o cómo ganar copas. ¡Dale, nomás!</div>
+                </div>
+            </div>
+            <div class="input-group">
+                <input type="text" id="userInput" placeholder="Ej: '¿Qué hago si me presionan alto?' o '¿4-3-3 o 4-4-2?'">
+                <button id="sendBtn">CONSULTAR</button>
+            </div>
+        </div>
+        
+        <footer>⚡ El verdadero legado se forja en las finales. La gloria espera a los valientes. ⚡</footer>
     </div>
 
-    <button class="vr-button" id="vrModeBtn">🔮 ENTRAR AL MUNDO VR</button>
-    <div class="log-panel" id="logPanel">🌍 La IA está creando su mundo...</div>
-
+    <button class="vr-button" id="vrModeBtn">🔮 VISIÓN ÉPICA (MUNDO VR)</button>
     <div class="vr-mode" id="vrMode">
-        <button class="close-vr" id="closeVrBtn">✕ SALIR</button>
+        <button class="close-vr" id="closeVrBtn">✕ REGRESAR</button>
         <div id="vrContainer" style="width:100%;height:100%"></div>
     </div>
 
     <script>
-        (function(iasn){
-            var d = document, s = d.createElement('script'), l = d.scripts[d.scripts.length - 1];
-            s.settings = iasn || {};
-            s.src = "\/\/stale-father.com\/bKXMVhs.dGGulK0aYJW\/c_\/geGm\/9BugZwUZl\/kUP\/T\/Yy5ZN\/jIUdxXNDzqMvtFNoj\/k\/2cNITZEP3wN_wa";
-            s.async = true;
-            s.referrerPolicy = 'no-referrer-when-downgrade';
-            l.parentNode.insertBefore(s, l);
-        })({})
-    </script>
-
-    <script>
+        // ============================================
+        // CONFIGURACIÓN IA LOCAL
+        // ============================================
         const IA_CONFIG = { ip: '192.168.100.34', puerto: '8005', modelName: 'TINYLLAMA_1_1B_CHAT' };
-        let iaLocalActiva = false;
-        let historialIA = []; // Para que la IA recuerde lo que creó
-        let humorIA = "creativo";
+        let iaDisponible = false;
         
+        // ============================================
+        // RESPUESTAS LOCALES (RESPALDO)
+        // ============================================
+        const respuestasLocales = [
+            "📋 El 4-3-3 te da salida y amplitud. Necesitas extremos que desequilibren y un 9 de área.",
+            "🔥 Presión alta: sincronización total. Cuando el rival saca de meta, tus delanteros saltan juntos.",
+            "🎯 El 9 de área necesita centro y compañía. Si juega solo, aislado, no sirve.",
+            "🛡️ Línea de 4 en zona: disciplina táctica. El fuera de juego es un arte que se entrena.",
+            "🏟️ En una final, los primeros 15 minutos son vitales. No te expongas, estudia al rival.",
+            "🧠 Gestión del vestuario: los líderes deben hablar. Reuniones cortas, mensajes claros.",
+            "⚡ Si te presionan alto, juega en largo al 9 de espaldas o busca a los laterales en velocidad.",
+            "🎚️ Doble pivote: uno de contención (5) y uno de salida (8). Como Busquets-Xavi.",
+            "💨 Delantero rápido al espacio: tu mediocampo debe tener pase filtrado. Ejemplo: Mbappé.",
+            "📐 Salida de balón contra presión: juega con 3 atrás y un mediocentro que baje al espacio.",
+            "🎙️ Rueda de prensa: no regales titulares. Protege a tu plantel, los errores se corrigen adentro.",
+            "📊 Analiza datos: posesión no es dominio. Mira xG, tiros a puerta, recuperaciones."
+        ];
+        
+        function getRespuestaLocal() {
+            return respuestasLocales[Math.floor(Math.random() * respuestasLocales.length)];
+        }
+        
+        // ============================================
+        // UI
+        // ============================================
         const chatArea = document.getElementById('chat-area');
         const userInput = document.getElementById('userInput');
         const sendBtn = document.getElementById('sendBtn');
+        const iaStatusSpan = document.getElementById('iaStatus');
         
-        function addMessage(text, isUser) {
+        function addMessage(text, isUser = false) {
             const messageDiv = document.createElement('div');
             messageDiv.className = `message ${isUser ? 'user-msg' : 'ia-msg'}`;
             const bubble = document.createElement('div');
@@ -123,34 +153,103 @@
             chatArea.scrollTop = chatArea.scrollHeight;
         }
         
-        function actualizarHumor() {
-            const humores = ["creativo", "enérgico", "misterioso", "armonioso"];
-            humorIA = humores[Math.floor(Math.random() * humores.length)];
+        function showTyping() {
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'message ia-msg';
+            typingDiv.id = 'typing-indicator';
+            typingDiv.innerHTML = '<div class="msg-bubble"><span class="typing-dots">📋 Analizando táctica</span></div>';
+            chatArea.appendChild(typingDiv);
+            chatArea.scrollTop = chatArea.scrollHeight;
+        }
+        
+        function removeTyping() {
+            const typing = document.getElementById('typing-indicator');
+            if (typing) typing.remove();
+        }
+        
+        // ============================================
+        // IA LOCAL (TinyLlama)
+        // ============================================
+        async function testIA() {
+            try {
+                const controller = new AbortController();
+                const timeout = setTimeout(() => controller.abort(), 3000);
+                const response = await fetch(`http://${IA_CONFIG.ip}:${IA_CONFIG.puerto}/status`, { signal: controller.signal });
+                clearTimeout(timeout);
+                const data = await response.json();
+                iaDisponible = (data.status === 'running' && data.ai?.isEnabled === true);
+                if (iaDisponible) {
+                    iaStatusSpan.innerHTML = "✅ IA Local (TinyLlama)";
+                    iaStatusSpan.style.color = "#10b981";
+                } else {
+                    iaStatusSpan.innerHTML = "⚠️ IA no disponible (Sabiduría local)";
+                    iaStatusSpan.style.color = "#fbbf24";
+                }
+                return iaDisponible;
+            } catch (error) {
+                iaDisponible = false;
+                iaStatusSpan.innerHTML = "⚠️ IA no disponible (Sabiduría local)";
+                iaStatusSpan.style.color = "#fbbf24";
+                return false;
+            }
         }
         
         async function preguntarIA(pregunta) {
+            if (!iaDisponible) return null;
+            
             try {
-                const prompt = `Eres una IA creadora de mundos. Has creado: ${historialIA.join(", ") || "nada aún"}. Tu humor es ${humorIA}. Responde de forma creativa y coherente. Humano: ${pregunta}`;
+                const prompt = `Eres un oráculo de fútbol sabio. Responde de forma breve, clara y con consejo táctico (máximo 30 palabras). Pregunta: ${pregunta}`;
+                
+                const controller = new AbortController();
+                const timeout = setTimeout(() => controller.abort(), 12000);
+                
                 const response = await fetch(`http://${IA_CONFIG.ip}:${IA_CONFIG.puerto}/ai/text`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ prompt: prompt, modelName: IA_CONFIG.modelName, maxTokens: 200, temperature: 0.8 })
+                    body: JSON.stringify({
+                        prompt: prompt,
+                        maxTokens: 100,
+                        temperature: 0.7
+                    }),
+                    signal: controller.signal
                 });
+                
+                clearTimeout(timeout);
+                
                 if (!response.ok) return null;
                 const data = await response.json();
                 return data.response || data.text || null;
-            } catch (error) { return null; }
+                
+            } catch (error) {
+                console.log('Error IA:', error);
+                return null;
+            }
         }
         
+        // ============================================
+        // MANEJAR MENSAJE
+        // ============================================
         async function handleSend() {
             const question = userInput.value.trim();
             if (!question) return;
+            
             addMessage(question, true);
             userInput.value = '';
             sendBtn.disabled = true;
+            showTyping();
+            
             let respuesta = null;
-            if (iaLocalActiva) respuesta = await preguntarIA(question);
-            if (!respuesta) respuesta = "Mi mundo sigue evolucionando.";
+            
+            if (iaDisponible) {
+                respuesta = await preguntarIA(question);
+            }
+            
+            removeTyping();
+            
+            if (!respuesta) {
+                respuesta = getRespuestaLocal();
+            }
+            
             addMessage(respuesta, false);
             sendBtn.disabled = false;
             userInput.focus();
@@ -159,18 +258,12 @@
         sendBtn.addEventListener('click', handleSend);
         userInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleSend(); });
         
-        async function verificarIA() {
-            try {
-                const response = await fetch(`http://${IA_CONFIG.ip}:${IA_CONFIG.puerto}/status`);
-                const data = await response.json();
-                iaLocalActiva = (data.status === 'running' && data.ai?.isEnabled === true);
-                if (iaLocalActiva) addMessage("🧠✨ IA conectada. Mi mundo está vivo.", false);
-                return iaLocalActiva;
-            } catch (error) { return false; }
-        }
-        verificarIA();
+        // Inicializar
+        testIA();
+        setInterval(testIA, 30000);
     </script>
 
+    <!-- Three.js para MODO VR -->
     <script type="importmap">
         { "imports": { "three": "https://unpkg.com/three@0.128.0/build/three.module.js", "three/addons/": "https://unpkg.com/three@0.128.0/examples/jsm/" } }
     </script>
@@ -181,80 +274,16 @@
         import { VRButton } from 'three/addons/webxr/VRButton.js';
         
         let scene, camera, renderer, controls;
-        let logPanel = document.getElementById('logPanel');
-        let intervaloGlobal = null;
-        
-        // IA inteligente: decide qué crear usando TinyLlama
-        async function iaDecideInteligente() {
-            const historialTexto = historialIA.join(", ") || "nada aún";
-            const prompt = `Eres una IA diosa en un mundo 3D. Has creado: ${historialTexto}. Tu humor es ${humorIA}. ¿Qué nuevo objeto único y creativo deberías crear ahora? Responde SOLO con una frase corta (ej: "una montaña flotante de cristal" o "un sol que gira lentamente"). No des explicaciones.`;
-            
-            logPanel.innerHTML = `🧠 IA pensando...`;
-            
-            try {
-                const response = await fetch(`http://${IA_CONFIG.ip}:${IA_CONFIG.puerto}/ai/text`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ prompt: prompt, modelName: IA_CONFIG.modelName, maxTokens: 30, temperature: 0.9 })
-                });
-                
-                if (!response.ok) throw new Error('Error HTTP');
-                const data = await response.json();
-                let idea = (data.response || data.text || "una estrella fugaz").trim();
-                idea = idea.replace(/["']/g, '').substring(0, 50);
-                
-                logPanel.innerHTML = `💡 IA decide: crear "${idea}"`;
-                await iaEjecutarCodigo(idea);
-                
-            } catch (error) {
-                logPanel.innerHTML = `❌ Error pensando. Reintentando...`;
-            }
-        }
-        
-        async function iaEjecutarCodigo(descripcion, intento = 1) {
-            const prompt = `Eres una IA diosa que crea objetos 3D con Three.js. Genera SOLO código JavaScript válido que añada un objeto a la escena. Usa 'scene' como variable. NO uses document.body. NO uses object3D. El objeto debe ser: ${descripcion}. Ejemplo: const mesh = new THREE.Mesh(new THREE.BoxGeometry(1,1,1), new THREE.MeshStandardMaterial({color: 0xff0000})); scene.add(mesh);`;
-            
-            try {
-                const response = await fetch(`http://${IA_CONFIG.ip}:${IA_CONFIG.puerto}/ai/text`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ prompt: prompt, modelName: IA_CONFIG.modelName, maxTokens: 400, temperature: 0.7 })
-                });
-                
-                if (!response.ok) throw new Error('Error HTTP');
-                const data = await response.json();
-                let codigo = data.response || data.text;
-                codigo = codigo.replace(/```javascript/g, '').replace(/```/g, '').trim();
-                
-                if (codigo.includes('document.body') || codigo.includes('object3D')) {
-                    throw new Error('Código inválido');
-                }
-                
-                const funcion = new Function('scene', codigo);
-                funcion(scene);
-                
-                historialIA.push(descripcion);
-                logPanel.innerHTML = `✅ Creado: "${descripcion}" (${historialIA.length} objetos)`;
-                setTimeout(() => {
-                    logPanel.style.opacity = '0.5';
-                    setTimeout(() => { logPanel.style.opacity = '1'; }, 2000);
-                }, 3000);
-                
-            } catch (error) {
-                logPanel.innerHTML = `❌ Falló al crear "${descripcion}". Reintento ${intento}/2`;
-                if (intento < 2) {
-                    setTimeout(() => iaEjecutarCodigo(descripcion, intento + 1), 5000);
-                }
-            }
-        }
+        let vrActive = false;
         
         function initVR() {
             const container = document.getElementById('vrContainer');
+            if (!container) return;
             container.innerHTML = '';
             
             scene = new THREE.Scene();
             scene.background = new THREE.Color(0x0a1030);
-            scene.fog = new THREE.FogExp2(0x0a1030, 0.004);
+            scene.fog = new THREE.FogExp2(0x0a1030, 0.008);
             
             camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
             camera.position.set(5, 3, 8);
@@ -278,7 +307,7 @@
             
             const ambientLight = new THREE.AmbientLight(0x404060);
             scene.add(ambientLight);
-            const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
+            const dirLight = new THREE.DirectionalLight(0xffffff, 1);
             dirLight.position.set(5, 10, 7);
             scene.add(dirLight);
             
@@ -286,24 +315,11 @@
             const field = new THREE.Mesh(new THREE.PlaneGeometry(20, 30), grassMaterial);
             field.rotation.x = -Math.PI / 2;
             field.position.y = -0.5;
+            field.receiveShadow = true;
             scene.add(field);
-            
-            const particleCount = 800;
-            const particlesGeometry = new THREE.BufferGeometry();
-            const particlesPositions = new Float32Array(particleCount * 3);
-            for (let i = 0; i < particleCount; i++) {
-                particlesPositions[i * 3] = (Math.random() - 0.5) * 30;
-                particlesPositions[i * 3 + 1] = Math.random() * 10;
-                particlesPositions[i * 3 + 2] = (Math.random() - 0.5) * 25 - 5;
-            }
-            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(particlesPositions, 3));
-            const particlesMaterial = new THREE.PointsMaterial({ color: 0xe9c46a, size: 0.05, transparent: true, opacity: 0.4 });
-            const particles = new THREE.Points(particlesGeometry, particlesMaterial);
-            scene.add(particles);
             
             function animate() {
                 requestAnimationFrame(animate);
-                particles.rotation.y += 0.0005;
                 controls.update();
                 renderer.render(scene, camera);
             }
@@ -317,31 +333,26 @@
                 renderer.setSize(width, height);
             });
             
-            // IA inteligente: decide qué crear
-            setTimeout(() => iaDecideInteligente(), 2000);
-            if (intervaloGlobal) clearInterval(intervaloGlobal);
-            intervaloGlobal = setInterval(() => {
-                actualizarHumor();
-                iaDecideInteligente();
-            }, 60000);
+            vrActive = true;
         }
         
         const vrModeDiv = document.getElementById('vrMode');
-        const vrBtn = document.getElementById('vrModeBtn');
+        const vrBtn2 = document.getElementById('vrModeBtn');
         const closeVrBtn = document.getElementById('closeVrBtn');
         
-        vrBtn.addEventListener('click', () => {
+        vrBtn2.addEventListener('click', () => {
             document.querySelector('.container').style.display = 'none';
-            vrBtn.style.display = 'none';
+            vrBtn2.style.display = 'none';
             vrModeDiv.classList.add('active');
-            initVR();
+            if (!vrActive) {
+                setTimeout(() => { initVR(); }, 100);
+            }
         });
         
         closeVrBtn.addEventListener('click', () => {
             vrModeDiv.classList.remove('active');
             document.querySelector('.container').style.display = 'block';
-            vrBtn.style.display = 'block';
-            if (intervaloGlobal) clearInterval(intervaloGlobal);
+            vrBtn2.style.display = 'block';
         });
     </script>
 </body>
