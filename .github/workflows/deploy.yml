@@ -1,33 +1,41 @@
-name: Deploy with Secret API Key
+name: Proxy API Call
 
 on:
   push:
-    branches: [main, master]
+    paths:
+      - 'request.txt'   # Se activa cuando se crea/modifica este archivo
 
 jobs:
-  deploy:
+  call-groq-api:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-    permissions:
-      contents: write
-      pages: write
-      id-token: write
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Inject API Key into index.html
+      - name: Read user request
+        id: read
         run: |
-          sed -i "s|__GROQ_API_KEY__|${{ secrets.GROQ_API_KEY }}|g" index.html
+          if [ -f request.txt ]; then
+            echo "prompt=$(cat request.txt)" >> $GITHUB_OUTPUT
+          fi
 
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: ./
-
-      - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v4
+      - name: Call Groq API
         env:
-          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+        run: |
+          response=$(curl -s -X POST https://api.groq.com/openai/v1/chat/completions \
+            -H "Authorization: Bearer $GROQ_API_KEY" \
+            -H "Content-Type: application/json" \
+            -d "{
+              \"model\": \"mixtral-8x7b-32768\",
+              \"messages\": [{\"role\": \"user\", \"content\": \"${{ steps.read.outputs.prompt }}\"}]
+            }")
+          echo "$response" > response.json
+
+      - name: Commit response
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add response.json
+          git commit -m "Actualizar respuesta de la API" || echo "No changes to commit"
+          git push
