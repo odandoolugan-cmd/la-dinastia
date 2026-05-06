@@ -117,31 +117,102 @@
         function _I() { return Object.values(_B).join(' '); }
         
         // ============================================
-        // SISTEMA CONFIDENCIAL (SECRETO TOTAL)
+        // FUNCIÓN HASH PARA CACHÉ (evita colisiones)
+        // ============================================
+        function _hash(str) {
+            let hash = 0;
+            const s = str.toLowerCase().trim();
+            for (let i = 0; i < s.length; i++) {
+                hash = ((hash << 5) - hash) + s.charCodeAt(i);
+                hash |= 0;
+            }
+            return Math.abs(hash).toString(36);
+        }
+        
+        // ============================================
+        // SISTEMA CONFIDENCIAL CON TODAS LAS MEJORAS
         // ============================================
         (function() {
-            const _ = { t: 20, r: 1, p: 30000, m: 3 };
+            // MEJORA 1: Backoff exponencial + timeout optimizado
+            const _ = { t: 30, r: 1, p: 30000, m: 2, maxBackoff: 300000, backoffFactor: 2 };
+            let S = { i: 0, c: 0, backoff: _.p };
+            
+            // MEJORA 2: Forzar español en prompts
             const M = [
-                { f: [(q)=>`${_I()}\n\nSei un esperto mondiale di tattica calcistica. ITALIANO: "${q}"`,(t)=>`Traduci in SPAGNOLO:\n\n"${t}"\n\nSPAGNOLO:`]},
-                { f: [(q)=>`${_I()}\n\nEres un experto en táctica. CHINO: "${q}"`,(t)=>`Traduce al ESPAÑOL:\n\n"${t}"\n\nESPAÑOL:`]},
-                { f: [(q)=>`${_I()}\n\nExpert en tactique. FRANÇAIS: "${q}"`,(t)=>`Traduis en ESPAGNOL:\n\n"${t}"\n\nESPAGNOL:`]},
-                { f: [(q)=>`${_I()}\n\nFußballtaktikexperte. DEUTSCH: "${q}"`,(t)=>`Übersetze ins SPANISCHE:\n\n"${t}"\n\nSPANISCH:`]}
+                { f: [(q)=>`${_I()}\n\nSei un esperto mondiale di tattica calcistica. RESPONDE SIEMPRE EN ESPAÑOL. ITALIANO: "${q}"`, (t)=>`${t}`] },
+                { f: [(q)=>`${_I()}\n\nEres un experto en táctica. RESPONDE SIEMPRE EN ESPAÑOL. CHINO: "${q}"`, (t)=>`${t}`] },
+                { f: [(q)=>`${_I()}\n\nExpert en tactique. RESPONDE SIEMPRE EN ESPAÑOL. FRANÇAIS: "${q}"`, (t)=>`${t}`] },
+                { f: [(q)=>`${_I()}\n\nFußballtaktikexperte. RESPONDE SIEMPRE EN ESPAÑOL. DEUTSCH: "${q}"`, (t)=>`${t}`] }
             ];
-            let S={i:0,c:0},C=JSON.parse(localStorage.getItem('_d5')||'{}');
+            
+            let C = JSON.parse(localStorage.getItem('_d5')||'{}');
             function _s(){localStorage.setItem('_d5',JSON.stringify(C));}
-            function _g(q){const k=q.toLowerCase().trim().substring(0,100);if(C[k]&&(Date.now()-C[k].t)<3600000)return C[k].r;return null;}
-            function _p(q,r){const k=q.toLowerCase().trim().substring(0,100);C[k]={r,t:Date.now()};const keys=Object.keys(C);if(keys.length>200){keys.sort((a,b)=>C[a].t-C[b].t);for(let i=0;i<30;i++)delete C[keys[i]];}_s();}
+            
+            // MEJORA 3: Hash en lugar de substring(0,100)
+            function _g(q){const k=_hash(q);if(C[k]&&(Date.now()-C[k].t)<3600000)return C[k].r;return null;}
+            function _p(q,r){const k=_hash(q);C[k]={r,t:Date.now()};const keys=Object.keys(C);if(keys.length>200){keys.sort((a,b)=>C[a].t-C[b].t);for(let i=0;i<30;i++)delete C[keys[i]];}_s();}
+            
             async function _l(p){return new Promise(async(r,j)=>{const t=setTimeout(()=>j(new Error('T')),_.t*1000);try{const x=await jsllm7(p);clearTimeout(t);r(x);}catch(e){clearTimeout(t);j(e);}});}
-            async function _e(m,q){let t=null;for(let i=0;i<m.f.length;i++)t=await _l(i===0?m.f[i](q):m.f[i](t));return t;}
-            window._x=async function(q){const start=S.i;for(let i=0;i<M.length;i++){const idx=(start+i)%M.length;try{const r=await _e(M[idx],q);S.i=idx;S.c=0;return{r,e:true};}catch(e){S.c++;if(S.c>=_.m){await new Promise(r=>setTimeout(r,_.p));S.c=0;}if(i<M.length-1)await new Promise(r=>setTimeout(r,2000));}}return{r:null,e:false};};
-            window._g=_g;window._p=_p;setInterval(()=>{if(S.i>0&&S.c===0)S.i=0;},180000);
+            
+            async function _e(m,q){let t=null;for(let i=0;i<m.f.length;i++){t=await _l(i===0?m.f[i](q):m.f[i](t));}return t;}
+            
+            // MEJORA 4: Backoff exponencial en reintentos
+            window._x = async function(q){
+                const start = S.i;
+                for(let i=0;i<M.length;i++){
+                    const idx=(start+i)%M.length;
+                    try{
+                        const r=await _e(M[idx],q);
+                        S.i=idx; S.c=0; S.backoff=_.p;
+                        return{r,e:true};
+                    }catch(e){
+                        S.c++;
+                        if(S.c>=_.m){
+                            await new Promise(r=>setTimeout(r,S.backoff));
+                            S.c=0;
+                            S.backoff=Math.min(S.backoff*_.backoffFactor,_.maxBackoff);
+                        }
+                        if(i<M.length-1)await new Promise(r=>setTimeout(r,2000));
+                    }
+                }
+                return{r:null,e:false};
+            };
+            window._g=_g; window._p=_p;
+            setInterval(()=>{if(S.i>0&&S.c===0)S.i=0;},180000);
         })();
         
         // ============================================
-        // UI - SIN REVELAR NADA
+        // MEJORA 5: Fallback mejorado con más reglas
+        // ============================================
+        const _R_MEJORADO = {
+            reglas: [
+                { palabras: ['4-3-3', 'cuatro tres tres'], respuesta: '🛡️ Contra 4-3-3: Usa 4-4-2 con doble pivote. Cierra pasillos interiores. Obliga a los extremos a ir por fuera. Ejemplo: Atlético de Simeone vs Barça.', prioridad: 10 },
+                { palabras: ['presión alta', 'presion alta', 'pressing'], respuesta: '⚡ Presión alta: Requiere coordinación total. Activa al portero como líbero. No dejes espacios entre líneas. Ejemplo: Liverpool de Klopp 2018-2020.', prioridad: 9 },
+                { palabras: ['contraataque', 'contra ataque'], respuesta: '💨 Contraataque: Transiciones rápidas con 3 jugadores máximo. Velocidad por bandas. Ejemplo: Real Madrid 2014-2018 con BBC.', prioridad: 8 },
+                { palabras: ['doble pivote'], respuesta: '🔒 Doble pivote: Protege la defensa. Uno de contención y uno de salida. Coordinación constante.', prioridad: 7 },
+                { palabras: ['falso 9', 'falso9'], respuesta: '🎭 Falso 9: Delantero retrasado. Genera superioridad en mediocampo. Ej: Messi, Firmino.', prioridad: 7 },
+                { palabras: ['gegenpressing'], respuesta: '⚡ Gegenpressing: Presión inmediata tras pérdida (máximo 5 segundos). Recuperación en campo rival.', prioridad: 7 },
+                { palabras: ['muerto', 'sustituido', 'derribado'], respuesta: '🔄 RECUPERACIÓN DE JUGADOR SUSTITUIDO\n\n1️⃣ Descanso activo - 48 horas sin carga física\n2️⃣ Entrenamiento específico por posición\n3️⃣ Trabajo de confianza con psicólogo deportivo\n4️⃣ Reinserción gradual en amistosos (30-45 minutos)\n5️⃣ Análisis de video del partido anterior\n6️⃣ Retroalimentación constante del cuerpo técnico', prioridad: 10 }
+            ],
+            ejecutar: function(pregunta) {
+                const q = pregunta.toLowerCase();
+                let mejor = null;
+                for (let regla of this.reglas) {
+                    for (let pal of regla.palabras) {
+                        if (q.includes(pal)) {
+                            if (!mejor || regla.prioridad > mejor.prioridad) mejor = regla;
+                            break;
+                        }
+                    }
+                }
+                return mejor ? mejor.respuesta : '🏆 Analizando tu consulta táctica. ¿Puedes especificar contra qué sistema quieres jugar?';
+            }
+        };
+        
+        // ============================================
+        // UI - CON TODAS LAS MEJORAS
         // ============================================
         let modo=localStorage.getItem('dinastia_modo')||'experto';
-        function _R(q){const l=q.toLowerCase();if(l.includes('4-3-3'))return'🛡️ Contra 4-3-3: Usa 4-4-2 con doble pivote. Cierra pasillos interiores. Obliga a los extremos a ir por fuera. Ejemplo: Atlético de Simeone vs Barça.';if(l.includes('presión'))return'⚡ Presión alta: Requiere coordinación total. Activa al portero como líbero. No dejes espacios entre líneas. Ejemplo: Liverpool de Klopp 2018-2020.';if(l.includes('contraataque'))return'💨 Contraataque: Transiciones rápidas con 3 jugadores máximo. Velocidad por bandas. Ejemplo: Real Madrid 2014-2018 con BBC.';return'🏆 Analizando tu consulta táctica. ¿Puedes especificar contra qué sistema quieres jugar?';}
         
         function actualizarModoUI(){document.querySelectorAll('.modo-btn').forEach(b=>b.classList.toggle('active',b.dataset.modo===modo));}
         document.querySelectorAll('.modo-btn').forEach(b=>{b.addEventListener('click',()=>{modo=b.dataset.modo;localStorage.setItem('dinastia_modo',modo);actualizarModoUI();addMessage(`✨ Modo ${modo==='experto'?'EXPERTO':'BÁSICO'}`,false);});});
@@ -155,15 +226,47 @@
         function showTyping(){const d=document.createElement('div');d.className='message ia-msg';d.id='_t';d.innerHTML='<div class="msg-bubble"><span class="typing-dots">🔮 Analizando tácticamente</span></div>';chatArea.appendChild(d);chatArea.scrollTop=chatArea.scrollHeight;}
         function removeTyping(){const t=document.getElementById('_t');if(t)t.remove();}
         
-        async function handleSend(){const q=userInput.value.trim();if(!q)return;addMessage(q,true);userInput.value='';sendBtn.disabled=true;
-        let r=window._g?window._g(q):null;
-        if(!r){showTyping();if(typeof jsllm7!=='undefined'&&window._x){try{const result=await window._x(q);if(result.e&&result.r){r=result.r;if(window._p)window._p(q,r);}}catch(e){}}
-        removeTyping();if(!r){r=_R(q);showToast('📡 Respuesta local');}else showToast('✅ Análisis generado');}
-        addMessage(r,false);sendBtn.disabled=false;userInput.focus();}
+        async function handleSend(){
+            const q=userInput.value.trim();
+            if(!q)return;
+            addMessage(q,true);
+            userInput.value='';
+            sendBtn.disabled=true;
+            
+            let r = window._g ? window._g(q) : null;
+            
+            if(!r){
+                showTyping();
+                if(typeof jsllm7!=='undefined'&&window._x){
+                    try{
+                        const result=await window._x(q);
+                        if(result.e&&result.r){
+                            r=result.r;
+                            if(window._p)window._p(q,r);
+                        }
+                    }catch(e){}
+                }
+                removeTyping();
+                
+                if(!r){
+                    r = _R_MEJORADO.ejecutar(q);
+                    showToast('📡 Respuesta local');
+                }else{
+                    showToast('✅ Análisis generado');
+                }
+            }else{
+                showToast('📦 Respuesta desde caché');
+            }
+            
+            addMessage(r,false);
+            sendBtn.disabled=false;
+            userInput.focus();
+        }
         
-        sendBtn.addEventListener('click',handleSend);userInput.addEventListener('keypress',e=>{if(e.key==='Enter')handleSend();});
+        sendBtn.addEventListener('click',handleSend);
+        userInput.addEventListener('keypress',e=>{if(e.key==='Enter')handleSend();});
         
-        function iniciar(){document.getElementById('subtitle').innerHTML='🎯 TÁCTICA AVANZADA · '+new Date().toLocaleTimeString();if(typeof jsllm7!=='undefined'){addMessage('✨ El oráculo está listo. Pregúntame sobre cualquier táctica de fútbol.',false);}}
+        function iniciar(){document.getElementById('subtitle').innerHTML='🎯 TÁCTICA AVANZADA · '+new Date().toLocaleTimeString();if(typeof jsllm7!=='undefined'){addMessage('✨ El oráculo está listo con todas las mejoras. Pregúntame sobre cualquier táctica.',false);}}
         let intentos=0;const check=setInterval(()=>{if(typeof jsllm7!=='undefined'){clearInterval(check);iniciar();}else if(intentos>30){clearInterval(check);iniciar();}intentos++;},500);
     </script>
 
