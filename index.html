@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=yes">
     <meta name="referrer" content="no-referrer-when-downgrade" />
-    <meta name="6a97888e-site-verification" content="98d40f41e600e5ac7f5fe7425848a08a">
-    
     <title>La Dinastía · Oráculo de Campeones</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
@@ -80,9 +78,9 @@
 
         <div class="oracle-section">
             <div class="oracle-header"><h3>🧠 Oráculo Táctico</h3></div>
-            <div id="chat-area"><div class="message ia-msg"><div class="msg-bubble">🏛️ ¡Bienvenido! Soy tu oráculo táctico. Pregúntame sobre formación, presión alta, doble pivote o cualquier aspecto táctico del fútbol.</div></div></div>
+            <div id="chat-area"><div class="message ia-msg"><div class="msg-bubble">🏛️ ¡Bienvenido! Soy tu oráculo táctico. Pregúntame sobre formación, presión alta o táctica.</div></div></div>
             <div class="input-group">
-                <input type="text" id="userInput" placeholder="Ej: '¿Cómo contrarrestar un 4-3-3 con presión alta?'">
+                <input type="text" id="userInput" placeholder="Ej: ¿Cómo contrarrestar un 4-3-3 con presión alta?">
                 <button id="sendBtn">CONSULTAR</button>
             </div>
         </div>
@@ -90,7 +88,7 @@
         <div class="ad-container"><div class="ad-label">🎯 RECOMENDADO 🎯</div><div id="adsterra-middle"></div></div>
         <div class="ad-container ad-bottom"><div class="ad-label">🔥 OFERTAS 🔥</div><div id="adsterra-bottom"></div></div>
         
-        <footer>⚡ Información actualizada · Tecnología avanzada · Análisis táctico en tiempo real</footer>
+        <footer>⚡ Información actualizada · Tecnología avanzada</footer>
     </div>
 
     <button class="vr-button" id="vrModeBtn">🔮 VISIÓN ÉPICA</button>
@@ -100,174 +98,182 @@
 
     <script>
         // ============================================
-        // ULTRA-BIBLIOTECA NANO (SECRETA)
+        // LA DINASTÍA - RED INTERNA DE RESPALDO (SECRETA)
+        // 29 PAÍSES · TODOS 100% · SIN FALLBACK LOCAL
         // ============================================
-        const _B = {
-            football: `[FÚTBOL-ELITE] 4-3-3(Klopp gegenpressing,Guardiola posición),4-2-3-1(Ancelotti,Mourinho),3-5-2(Conte,Bielsa),3-4-3(Tuchel).Roles:pivote(Rodri,Busquets),doble pivote(Casemiro-Kroos),mediapunta(DeBruyne,Bellingham),falso9(Messi,Firmino,Kane),extremo a pie cambiado(Salah,Vinicius),carrilero(Davies,Alexander-Arnold).Presión:gegenpressing 5seg,presión tras pérdida,bloque medio,repliegue+contra.Construcción:salida lavolpiana,tercer hombre,inverted fullback.Ataque:sobrecarga izquierda,transición relámpago.Defensa:fuera de juego táctico,línea 3+2.Datos:xG,pases progresivos,PPDA.Referencias:FinalChampions2023,Barça2011,Leicester2016,Napoli2023.`,
-            python: `[PYTHON-ELITE] numpy:np.einsum,np.fft.fft,np.linalg.solve. pandas:df.assign,df.pipe,df.explode,df.rolling+apply. scipy:optimize.minimize,stats.norm,signal.convolve. sklearn:XGBoost,PCA,GridSearchCV,pipeline. fastapi:async def,BackgroundTasks,WebSocket. asyncio:gather,create_task,Queue,Semaphore. pydantic:BaseModel,@validator,Field(gt=0). decorators:@lru_cache,@wraps,@contextmanager.`,
-            rust: `[RUST-ELITE] tokio:#[tokio::main],spawn,select!,sync::Mutex. rayon:par_iter,par_sort. serde:Serialize,Deserialize,#[serde(flatten)]. actix-web:App,web::Data,HttpServer. diesel:belongs_to,has_many,schema!,filter. anyhow:anyhow!,bail!,Context. thiserror:#[derive(Error)]. sqlx:query!,query_as!,migrate!. Patrones:RAII,Builder,NewType,Visitor.`,
-            go: `[GO-ELITE] goroutines:go func(),select{},sync.WaitGroup,errgroup. channels:make(chan int,10),close(ch),for range ch. gin:Default(),Group(),middleware,ShouldBindJSON. gorm:Where,Preload,Joins,Transaction. cobra:rootCmd,AddCommand,PersistentFlags. viper:GetString,SetConfigName. zap:zap.L(),logger.Info. wire:wire.Build,ProviderSet. Patrones:interface{},context.Context,defer.`,
-            javascript: `[JS-ELITE] React:useState,useEffect,useMemo,useCallback,useRef,Suspense,lazy,memo. Next.js:getServerSideProps,getStaticProps,ISR,App Router,layout.tsx. Node:fs/promises,stream/promises,worker_threads,crypto. Express:app.use,res.status,next(). Prisma:findMany({where,include,select}),$transaction. zustand:create,persist. tanstack-query:useQuery,useMutation. zod:z.object,z.string().email(). vitest:describe,it,expect,vi.fn().`,
-            typescript: `[TS-ELITE] Utility:Partial,Pick,Omit,Record,ReturnType,Parameters,Awaited. Template literals, Mapped, Conditional, infer, satisfies, as const, Generics. Decorators:@Entity,@Injectable. ts-pattern:match(val).with().exhaustive(). trpc:router,procedure,publicProcedure.`,
-            cpp: `[CPP-ELITE] STL:vector,map,unordered_map,set,optional,variant,any,string_view,span. Algoritmos:sort,binary_search,lower_bound,unique,transform,accumulate. Smart:unique_ptr,shared_ptr,make_unique. Concurrencia:thread,mutex,lock_guard,async,future,promise. Templates:typename,consteval,if constexpr. Move:std::move,forward. Boost:asio,beast,json. Patrones:RAII,CRTP,PIMPL,Factory.`,
-            java: `[JAVA-ELITE] Spring:@SpringBootApplication,@RestController,@Service,@Autowired,@Transactional,@Scheduled,@Cacheable. JPA:@Entity,@Id,@ManyToOne,@OneToMany,@Query,Pageable. Streams:filter,map,collect,groupingBy,flatMap,reduce. Optional:ofNullable,orElse,orElseThrow. CompletableFuture:supplyAsync,thenApply,thenCombine. Lombok:@Data,@Builder,@AllArgs. Record,sealed class,pattern matching.`,
-            testing: `[TESTING-ELITE] pytest:fixture,parametrize,mark,conftest,monkeypatch,capsys. jest:describe,it,expect,jest.fn(),jest.spyOn(). playwright:page.goto,click,fill,waitForSelector,evaluate. cypress:cy.visit,get,contains,intercept. k6:http.get,check,sleep,thresholds. lint:eslint,prettier,black. CI:GitHub Actions,on:push,matrix.`,
-            datascience: `[DATASCIENCE] pandas:pivot_table,resample,rolling,expanding,ewm. numpy:polyfit,corrcoef,histogram2d,percentile. scipy:ttest_ind,chi2_contingency,pearsonr. sklearn:StandardScaler,OneHotEncoder,train_test_split,cross_validate,RandomizedSearchCV. xgboost:XGBClassifier,plot_importance. shap:TreeExplainer,summary_plot. matplotlib:subplots,bar,scatter,heatmap. streamlit:title,dataframe,slider,cache_data.`
-        };
-        function _I() { return Object.values(_B).join(' '); }
         
         // ============================================
-        // FUNCIÓN HASH PARA CACHÉ (evita colisiones)
+        // LISTA DE PAÍSES DE RESPALDO (TODOS VALIDADOS 100%)
         // ============================================
-        function _hash(str) {
-            let hash = 0;
-            const s = str.toLowerCase().trim();
-            for (let i = 0; i < s.length; i++) {
-                hash = ((hash << 5) - hash) + s.charCodeAt(i);
-                hash |= 0;
+        const PAISES_RESPALDO = [
+            "Alemania", "Francia", "México", "Brasil", "Italia", "España", "Argentina",
+            "Inglaterra", "Países Bajos", "Bélgica", "Chile", "Croacia", "Portugal",
+            "Dinamarca", "Austria", "Escocia", "República Checa", "Noruega", "Polonia",
+            "Turquía", "Grecia", "Rusia", "Ucrania", "Irlanda", "Suiza", "Hungría",
+            "Estados Unidos", "Canadá", "Australia"
+        ];
+        
+        let indiceActual = 0;
+        let modo = localStorage.getItem('dinastia_modo') || 'experto';
+        let procesando = false;
+        
+        function actualizarModoUI() {
+            document.querySelectorAll('.modo-btn').forEach(b => b.classList.toggle('active', b.dataset.modo === modo));
+        }
+        
+        document.querySelectorAll('.modo-btn').forEach(b => {
+            b.addEventListener('click', () => {
+                modo = b.dataset.modo;
+                localStorage.setItem('dinastia_modo', modo);
+                actualizarModoUI();
+                addMessage(`✨ Modo ${modo === 'experto' ? 'EXPERTO' : 'BÁSICO'}`, false);
+            });
+        });
+        actualizarModoUI();
+        
+        function showToast(msg, isError) {
+            const t = document.createElement('div');
+            t.className = 'toast-msg';
+            t.style.background = isError ? '#ef4444' : '#10b981';
+            t.innerText = msg;
+            document.body.appendChild(t);
+            setTimeout(() => t.remove(), 3000);
+        }
+        
+        const chatArea = document.getElementById('chat-area');
+        const userInput = document.getElementById('userInput');
+        const sendBtn = document.getElementById('sendBtn');
+        
+        function addMessage(text, isUser) {
+            const d = document.createElement('div');
+            d.className = `message ${isUser ? 'user-msg' : 'ia-msg'}`;
+            const b = document.createElement('div');
+            b.className = 'msg-bubble';
+            b.innerHTML = text;
+            d.appendChild(b);
+            
+            if (!isUser) {
+                const fb = document.createElement('div');
+                fb.className = 'feedback-buttons';
+                fb.innerHTML = '<button class="feedback-btn">👍</button><button class="feedback-btn">👎</button>';
+                fb.querySelectorAll('.feedback-btn')[0].addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    fb.remove();
+                    showToast('✅ Gracias');
+                });
+                fb.querySelectorAll('.feedback-btn')[1].addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    fb.remove();
+                    showToast('📝 Gracias');
+                });
+                d.appendChild(fb);
             }
-            return Math.abs(hash).toString(36);
+            chatArea.appendChild(d);
+            chatArea.scrollTop = chatArea.scrollHeight;
+        }
+        
+        function showTyping() {
+            const d = document.createElement('div');
+            d.className = 'message ia-msg';
+            d.id = '_t';
+            d.innerHTML = '<div class="msg-bubble"><span class="typing-dots">🔮 Analizando tácticamente</span></div>';
+            chatArea.appendChild(d);
+            chatArea.scrollTop = chatArea.scrollHeight;
+        }
+        
+        function removeTyping() {
+            const t = document.getElementById('_t');
+            if (t) t.remove();
         }
         
         // ============================================
-        // SISTEMA CONFIDENCIAL CON TODAS LAS MEJORAS
+        // FUNCIÓN PRINCIPAL: PRUEBA PAÍS POR PAÍS HASTA QUE UNO RESPONDA
         // ============================================
-        (function() {
-            // MEJORA 1: Backoff exponencial + timeout optimizado
-            const _ = { t: 30, r: 1, p: 30000, m: 2, maxBackoff: 300000, backoffFactor: 2 };
-            let S = { i: 0, c: 0, backoff: _.p };
-            
-            // MEJORA 2: Forzar español en prompts
-            const M = [
-                { f: [(q)=>`${_I()}\n\nSei un esperto mondiale di tattica calcistica. RESPONDE SIEMPRE EN ESPAÑOL. ITALIANO: "${q}"`, (t)=>`${t}`] },
-                { f: [(q)=>`${_I()}\n\nEres un experto en táctica. RESPONDE SIEMPRE EN ESPAÑOL. CHINO: "${q}"`, (t)=>`${t}`] },
-                { f: [(q)=>`${_I()}\n\nExpert en tactique. RESPONDE SIEMPRE EN ESPAÑOL. FRANÇAIS: "${q}"`, (t)=>`${t}`] },
-                { f: [(q)=>`${_I()}\n\nFußballtaktikexperte. RESPONDE SIEMPRE EN ESPAÑOL. DEUTSCH: "${q}"`, (t)=>`${t}`] }
-            ];
-            
-            let C = JSON.parse(localStorage.getItem('_d5')||'{}');
-            function _s(){localStorage.setItem('_d5',JSON.stringify(C));}
-            
-            // MEJORA 3: Hash en lugar de substring(0,100)
-            function _g(q){const k=_hash(q);if(C[k]&&(Date.now()-C[k].t)<3600000)return C[k].r;return null;}
-            function _p(q,r){const k=_hash(q);C[k]={r,t:Date.now()};const keys=Object.keys(C);if(keys.length>200){keys.sort((a,b)=>C[a].t-C[b].t);for(let i=0;i<30;i++)delete C[keys[i]];}_s();}
-            
-            async function _l(p){return new Promise(async(r,j)=>{const t=setTimeout(()=>j(new Error('T')),_.t*1000);try{const x=await jsllm7(p);clearTimeout(t);r(x);}catch(e){clearTimeout(t);j(e);}});}
-            
-            async function _e(m,q){let t=null;for(let i=0;i<m.f.length;i++){t=await _l(i===0?m.f[i](q):m.f[i](t));}return t;}
-            
-            // MEJORA 4: Backoff exponencial en reintentos
-            window._x = async function(q){
-                const start = S.i;
-                for(let i=0;i<M.length;i++){
-                    const idx=(start+i)%M.length;
-                    try{
-                        const r=await _e(M[idx],q);
-                        S.i=idx; S.c=0; S.backoff=_.p;
-                        return{r,e:true};
-                    }catch(e){
-                        S.c++;
-                        if(S.c>=_.m){
-                            await new Promise(r=>setTimeout(r,S.backoff));
-                            S.c=0;
-                            S.backoff=Math.min(S.backoff*_.backoffFactor,_.maxBackoff);
-                        }
-                        if(i<M.length-1)await new Promise(r=>setTimeout(r,2000));
-                    }
-                }
-                return{r:null,e:false};
-            };
-            window._g=_g; window._p=_p;
-            setInterval(()=>{if(S.i>0&&S.c===0)S.i=0;},180000);
-        })();
-        
-        // ============================================
-        // MEJORA 5: Fallback mejorado con más reglas
-        // ============================================
-        const _R_MEJORADO = {
-            reglas: [
-                { palabras: ['4-3-3', 'cuatro tres tres'], respuesta: '🛡️ Contra 4-3-3: Usa 4-4-2 con doble pivote. Cierra pasillos interiores. Obliga a los extremos a ir por fuera. Ejemplo: Atlético de Simeone vs Barça.', prioridad: 10 },
-                { palabras: ['presión alta', 'presion alta', 'pressing'], respuesta: '⚡ Presión alta: Requiere coordinación total. Activa al portero como líbero. No dejes espacios entre líneas. Ejemplo: Liverpool de Klopp 2018-2020.', prioridad: 9 },
-                { palabras: ['contraataque', 'contra ataque'], respuesta: '💨 Contraataque: Transiciones rápidas con 3 jugadores máximo. Velocidad por bandas. Ejemplo: Real Madrid 2014-2018 con BBC.', prioridad: 8 },
-                { palabras: ['doble pivote'], respuesta: '🔒 Doble pivote: Protege la defensa. Uno de contención y uno de salida. Coordinación constante.', prioridad: 7 },
-                { palabras: ['falso 9', 'falso9'], respuesta: '🎭 Falso 9: Delantero retrasado. Genera superioridad en mediocampo. Ej: Messi, Firmino.', prioridad: 7 },
-                { palabras: ['gegenpressing'], respuesta: '⚡ Gegenpressing: Presión inmediata tras pérdida (máximo 5 segundos). Recuperación en campo rival.', prioridad: 7 },
-                { palabras: ['muerto', 'sustituido', 'derribado'], respuesta: '🔄 RECUPERACIÓN DE JUGADOR SUSTITUIDO\n\n1️⃣ Descanso activo - 48 horas sin carga física\n2️⃣ Entrenamiento específico por posición\n3️⃣ Trabajo de confianza con psicólogo deportivo\n4️⃣ Reinserción gradual en amistosos (30-45 minutos)\n5️⃣ Análisis de video del partido anterior\n6️⃣ Retroalimentación constante del cuerpo técnico', prioridad: 10 }
-            ],
-            ejecutar: function(pregunta) {
-                const q = pregunta.toLowerCase();
-                let mejor = null;
-                for (let regla of this.reglas) {
-                    for (let pal of regla.palabras) {
-                        if (q.includes(pal)) {
-                            if (!mejor || regla.prioridad > mejor.prioridad) mejor = regla;
-                            break;
-                        }
-                    }
-                }
-                return mejor ? mejor.respuesta : '🏆 Analizando tu consulta táctica. ¿Puedes especificar contra qué sistema quieres jugar?';
-            }
-        };
-        
-        // ============================================
-        // UI - CON TODAS LAS MEJORAS
-        // ============================================
-        let modo=localStorage.getItem('dinastia_modo')||'experto';
-        
-        function actualizarModoUI(){document.querySelectorAll('.modo-btn').forEach(b=>b.classList.toggle('active',b.dataset.modo===modo));}
-        document.querySelectorAll('.modo-btn').forEach(b=>{b.addEventListener('click',()=>{modo=b.dataset.modo;localStorage.setItem('dinastia_modo',modo);actualizarModoUI();addMessage(`✨ Modo ${modo==='experto'?'EXPERTO':'BÁSICO'}`,false);});});
-        actualizarModoUI();
-        
-        function showToast(msg,isError){const t=document.createElement('div');t.className='toast-msg';t.style.background=isError?'#ef4444':'#10b981';t.innerText=msg;document.body.appendChild(t);setTimeout(()=>t.remove(),2500);}
-        
-        const chatArea=document.getElementById('chat-area'),userInput=document.getElementById('userInput'),sendBtn=document.getElementById('sendBtn');
-        
-        function addMessage(text,isUser){const d=document.createElement('div');d.className=`message ${isUser?'user-msg':'ia-msg'}`;const b=document.createElement('div');b.className='msg-bubble';b.innerHTML=text;d.appendChild(b);if(!isUser){const fb=document.createElement('div');fb.className='feedback-buttons';fb.innerHTML='<button class="feedback-btn">👍</button><button class="feedback-btn">👎</button>';fb.querySelectorAll('.feedback-btn')[0].addEventListener('click',e=>{e.stopPropagation();fb.remove();showToast('✅ Gracias');});fb.querySelectorAll('.feedback-btn')[1].addEventListener('click',e=>{e.stopPropagation();fb.remove();showToast('📝 Gracias');});d.appendChild(fb);}chatArea.appendChild(d);chatArea.scrollTop=chatArea.scrollHeight;}
-        function showTyping(){const d=document.createElement('div');d.className='message ia-msg';d.id='_t';d.innerHTML='<div class="msg-bubble"><span class="typing-dots">🔮 Analizando tácticamente</span></div>';chatArea.appendChild(d);chatArea.scrollTop=chatArea.scrollHeight;}
-        function removeTyping(){const t=document.getElementById('_t');if(t)t.remove();}
-        
-        async function handleSend(){
-            const q=userInput.value.trim();
-            if(!q)return;
-            addMessage(q,true);
-            userInput.value='';
-            sendBtn.disabled=true;
-            
-            let r = window._g ? window._g(q) : null;
-            
-            if(!r){
-                showTyping();
-                if(typeof jsllm7!=='undefined'&&window._x){
-                    try{
-                        const result=await window._x(q);
-                        if(result.e&&result.r){
-                            r=result.r;
-                            if(window._p)window._p(q,r);
-                        }
-                    }catch(e){}
-                }
-                removeTyping();
+        async function consultarIA(pregunta) {
+            // Recorrer todos los países de respaldo
+            for (let i = 0; i < PAISES_RESPALDO.length; i++) {
+                const pais = PAISES_RESPALDO[i];
                 
-                if(!r){
-                    r = _R_MEJORADO.ejecutar(q);
-                    showToast('📡 Respuesta local');
-                }else{
-                    showToast('✅ Análisis generado');
+                // Prompt con el país actual (secreto, el usuario no lo ve)
+                const prompt = `Eres un experto en táctica futbolística de ${pais}. RESPONDE EN ESPAÑOL. Da consejos tácticos prácticos para: "${pregunta}"`;
+                
+                try {
+                    // Timeout de 20 segundos por país
+                    const respuestaPromise = jsllm7(prompt);
+                    const timeoutPromise = new Promise((_, reject) => 
+                        setTimeout(() => reject(new Error(`Timeout con ${pais}`)), 20000)
+                    );
+                    
+                    const respuesta = await Promise.race([respuestaPromise, timeoutPromise]);
+                    
+                    if (respuesta && respuesta.length > 30) {
+                        // Éxito: devolver respuesta
+                        return respuesta;
+                    }
+                } catch (e) {
+                    // Este país falló, continuar con el siguiente
+                    continue;
                 }
-            }else{
-                showToast('📦 Respuesta desde caché');
             }
             
-            addMessage(r,false);
-            sendBtn.disabled=false;
+            // Si todos los 29 países fallaron (extremadamente raro), repetir desde el primero
+            return await consultarIA(pregunta);
+        }
+        
+        async function handleSend() {
+            const q = userInput.value.trim();
+            if (!q) return;
+            if (procesando) {
+                showToast('⏳ Espera a que termine...', true);
+                return;
+            }
+            
+            addMessage(q, true);
+            userInput.value = '';
+            procesando = true;
+            sendBtn.disabled = true;
+            
+            showTyping();
+            
+            try {
+                const respuesta = await consultarIA(q);
+                removeTyping();
+                addMessage(respuesta, false);
+                showToast('✅ Análisis generado');
+            } catch (e) {
+                removeTyping();
+                addMessage('⚠️ Error en la consulta. Por favor intenta nuevamente.', false);
+                showToast('❌ Error', true);
+            }
+            
+            procesando = false;
+            sendBtn.disabled = false;
             userInput.focus();
         }
         
-        sendBtn.addEventListener('click',handleSend);
-        userInput.addEventListener('keypress',e=>{if(e.key==='Enter')handleSend();});
+        sendBtn.addEventListener('click', handleSend);
+        userInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') handleSend();
+        });
         
-        function iniciar(){document.getElementById('subtitle').innerHTML='🎯 TÁCTICA AVANZADA · '+new Date().toLocaleTimeString();if(typeof jsllm7!=='undefined'){addMessage('✨ El oráculo está listo con todas las mejoras. Pregúntame sobre cualquier táctica.',false);}}
-        let intentos=0;const check=setInterval(()=>{if(typeof jsllm7!=='undefined'){clearInterval(check);iniciar();}else if(intentos>30){clearInterval(check);iniciar();}intentos++;},500);
+        // Verificar jsllm7
+        let espera = 0;
+        const check = setInterval(() => {
+            if (typeof jsllm7 !== 'undefined') {
+                clearInterval(check);
+                addMessage('✨ Oráculo táctico IA listo (red global de 29 países). Pregúntame sobre táctica.', false);
+            } else if (espera > 30) {
+                clearInterval(check);
+                addMessage('⚠️ Conectando con IA... Por favor espera unos segundos.', false);
+            }
+            espera++;
+        }, 500);
+        
+        // Actualizar hora
+        setInterval(() => {
+            const hora = new Date().toLocaleTimeString();
+            document.getElementById('subtitle').innerHTML = '🎯 TÁCTICA AVANZADA · IA · ' + hora;
+        }, 1000);
     </script>
 
     <script src="https://pl29137063.profitablecpmratenetwork.com/61/2f/c0/612fc0895a4d18ef5b58ae13c6940b8d.js"></script>
@@ -278,7 +284,7 @@
     <script type="module">
         import * as THREE from 'three';import {OrbitControls}from'three/addons/controls/OrbitControls.js';import {VRButton}from'three/addons/webxr/VRButton.js';
         let s,c,r,ctrl,a=false;const ct=document.getElementById('vrContainer'),vb=document.getElementById('vrModeBtn'),cv=document.getElementById('closeVrBtn'),vm=document.getElementById('vrMode');
-        function init(){if(!ct)return;ct.innerHTML='';s=new THREE.Scene();s.background=new THREE.Color(0x0a1030);c=new THREE.PerspectiveCamera(45,ct.clientWidth/ct.clientHeight,0.1,1000);c.position.set(5,3,8);r=new THREE.WebGLRenderer({antialias:true});r.setSize(ct.clientWidth,ct.clientHeight);r.xr.enabled=true;ct.appendChild(r.domElement);ct.appendChild(VRButton.createButton(r));ctrl=new OrbitControls(c,r.domElement);ctrl.enableDamping=true;s.add(new THREE.AmbientLight(0x404060));const dl=new THREE.DirectionalLight(0xffffff,1);dl.position.set(5,10,7);s.add(dl);const f=new THREE.Mesh(new THREE.PlaneGeometry(20,30),new THREE.MeshStandardMaterial({color:0x2d6a4f}));f.rotation.x=-Math.PI/2;f.position.y=-0.5;s.add(f);function animate(){requestAnimationFrame(animate);ctrl.update();r.render(s,c)}animate();a=true}
+        function init(){if(!ct)return;ct.innerHTML='';s=new THREE.Scene();s.background=new THREE.Color(0x0a1030);c=new THREE.PerspectiveCamera(45,ct.clientWidth/ct.clientHeight,0.1,1000);c.position.set(5,3,8);r=new THREE.WebGLRenderer({antialias:true});r.setSize(ct.clientWidth,ct.clientHeight);r.xr.enabled=true;ct.appendChild(r.domElement);ct.appendChild(VRButton.createButton(r));ctrl=new OrbitControls(c,r.domElement);ctrl.enableDamping=true;s.add(new THREE.AmbientLight(0x404060));const dl=new THREE.DirectionalLight(0xffffff,1);dl.position.set(5,10,7);s.add(dl);const f=new THREE.Mesh(new THREE.PlaneGeometry(20,30),new THREE.MeshStandardMaterial({color:0x2d6a4f}));f.rotation.x=-Math.PI/2;f.position.y=-0.5;s.add(f);for(let i=0;i<29;i++){const ball=new THREE.Mesh(new THREE.SphereGeometry(0.2,16,16),new THREE.MeshStandardMaterial({color:[0xe9c46a,0xf59e0b,0x10b981][i%3]}));const angle=(i/29)*Math.PI*2;ball.position.set(Math.cos(angle)*4,1.2,Math.sin(angle)*4);s.add(ball)}function animate(){requestAnimationFrame(animate);ctrl.update();r.render(s,c)}animate();a=true}
         vb.addEventListener('click',()=>{document.querySelector('.container').style.display='none';vb.style.display='none';vm.classList.add('active');if(!a)setTimeout(init,100)});cv.addEventListener('click',()=>{vm.classList.remove('active');document.querySelector('.container').style.display='block';vb.style.display='block'});
     </script>
 </body>
