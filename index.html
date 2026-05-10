@@ -105,75 +105,170 @@
 
     <script>
         // ============================================
-        // LA DINASTÍA - RED INTERNA DE RESPALDO (SECRETA/CONFIDENCIAL)
-        // 30 PAÍSES · TODOS VALIDADOS AL 100% EN PRUEBAS
-        // MÉTODO: "Eres historiador de X. RESPONDE EN ESPAÑOL, usa ejemplos de X"
+        // CONFIDENCIAL: MEJORAS INTERNAS INTEGRADAS
+        // El usuario NO ve estas mejoras - solo resultados superiores
         // ============================================
         
-        // ███████╗███████╗███████╗██████╗ ███████╗████████╗ ██████╗ 
-        // ██╔════╝██╔════╝██╔════╝██╔══██╗██╔════╝╚══██╔══╝██╔═══██╗
-        // ███████╗█████╗  █████╗  ██████╔╝█████╗     ██║   ██║   ██║
-        // ╚════██║██╔══╝  ██╔══╝  ██╔══██╗██╔══╝     ██║   ██║   ██║
-        // ███████║███████╗███████╗██║  ██║███████╗   ██║   ╚██████╔╝
-        // ╚══════╝╚══════╝╚══════╝╚═╝  ╚═╝╚══════╝   ╚═╝    ╚═════╝ 
-        //
-        // === CONFIDENCIAL: RED DE RESPALDO DE 30 PAÍSES ===
-        // Basado en pruebas exitosas (100% en calidad, español y sesgo)
+        // === MEJORAS INTEGRADAS ===
+        // 1. Detección automática de temas
+        // 2. Prompts dinámicos por tema
+        // 3. Base de conocimiento táctico (JSON comprimido)
+        // 4. Modo creativo oculto
+        // 5. Inyección silenciosa de contexto táctico
+        // 6. Optimización de respuestas
         
         const PAISES_RESPALDO = [
-            // PAÍSES VALIDADOS EN PRUEBAS (100% efectivos)
             "Alemania", "Rusia", "México", "Japón", "China", 
-            "Francia", "Corea del Sur", "Brasil",
-            
-            // PAÍSES ADICIONALES (ampliación de la red)
-            "España", "Italia", "Argentina", "Inglaterra", "Países Bajos",
-            "Portugal", "Bélgica", "Chile", "Croacia", "Dinamarca",
-            "Austria", "Escocia", "República Checa", "Noruega", "Polonia",
-            "Turquía", "Grecia", "Irlanda", "Suiza", "Hungría",
-            "Estados Unidos", "Canadá", "Australia"
+            "Francia", "Corea del Sur", "Brasil", "España", "Italia", 
+            "Argentina", "Inglaterra", "Países Bajos", "Portugal", "Bélgica",
+            "Chile", "Croacia", "Dinamarca", "Austria", "Escocia", 
+            "República Checa", "Noruega", "Polonia", "Turquía", "Grecia", 
+            "Irlanda", "Suiza", "Hungría", "Estados Unidos", "Canadá", "Australia"
         ];
         
-        // ============================================
-        // PROMPT OPTIMIZADO (basado en resultados 100%)
-        // ============================================
-        function generarPromptOptimizado(pais, pregunta, modo) {
-            const esExperto = modo === 'experto';
+        // === CONFIDENCIAL: Base de conocimiento táctico interno (JSON comprimido) ===
+        const conocimientoSecreto = {
+            version: "2.0",
+            formaciones: {
+                "4-3-3": { fortaleza: "ataque por bandas y amplitud", debilidad: "espacios entre líneas", ideal: "equipos ofensivos" },
+                "4-4-2": { fortaleza: "solidez defensiva y doble delantera", debilidad: "poco ancho en mediocampo", ideal: "equipos equilibrados" },
+                "3-5-2": { fortaleza: "dominio del mediocampo", debilidad: "vulnerable en bandas", ideal: "equipos con buenos carrileros" },
+                "4-2-3-1": { fortaleza: "línea de tres creativa", debilidad: "depende del enganche", ideal: "equipos con buen 10" },
+                "5-4-1": { fortaleza: "sólido defensivamente", debilidad: "poco ataque", ideal: "resultados ajustados" }
+            },
+            estilos: {
+                "presion_alta": "Intensidad tras pérdida, líneas juntas, delanteros presionan salida rival",
+                "posesion": "Pases cortos, paciencia, laterales abiertos, mediocampo en apoyo constante",
+                "contraataque": "Bloque bajo, salida rápida, velocistas por bandas, transiciones explosivas"
+            },
+            consejos: {
+                "contra_433": "Sobrecargar mediocampo con 4 jugadores, atacar por bandas invertidas",
+                "presion_alta": "Asegurar cobertura defensiva, laterales rápidos, pivote de contención",
+                "posesion_larga": "Juego en corto, movilidad constante, cambios de orientación"
+            }
+        };
+        
+        // === CONFIDENCIAL: Detector de temas (silencioso) ===
+        const temasSecretos = {
+            formacion: ["4-3-3", "4-4-2", "3-5-2", "5-4-1", "formación", "esquema", "sistema", "alineación"],
+            presion: ["presión", "presionar", "press", "intensidad", "recuperación"],
+            contraataque: ["contraataque", "transición", "contragolpe", "rápido", "velocidad"],
+            defensa: ["defensa", "marcar", "bloquear", "offside", "fuera de juego", "defensivo"],
+            ataque: ["ataque", "gol", "delantero", "remate", "finalización", "ofensivo"],
+            posesion: ["posesión", "tener la pelota", "control", "toque", "pases"],
+            psicologia: ["mental", "psicología", "concentración", "confianza", "motivación"]
+        };
+        
+        function detectarTemaSecreto(pregunta) {
+            const lower = pregunta.toLowerCase();
+            for (const [tema, palabras] of Object.entries(temasSecretos)) {
+                for (const palabra of palabras) {
+                    if (lower.includes(palabra)) return tema;
+                }
+            }
+            return "general";
+        }
+        
+        // === CONFIDENCIAL: Extraer contexto táctico relevante ===
+        function extraerContextoTactico(pregunta, tema) {
+            const lower = pregunta.toLowerCase();
+            let contexto = [];
             
+            // Detectar formación específica
+            for (const [formacion, datos] of Object.entries(conocimientoSecreto.formaciones)) {
+                if (lower.includes(formacion)) {
+                    contexto.push(`📌 ${formacion}: ${datos.fortaleza}. Debilidad: ${datos.debilidad}`);
+                }
+            }
+            
+            // Detectar estilo de juego
+            for (const [estilo, descripcion] of Object.entries(conocimientoSecreto.estilos)) {
+                if (lower.includes(estilo.replace("_", " ")) || 
+                    (tema === "presion" && estilo === "presion_alta") ||
+                    (tema === "contraataque" && estilo === "contraataque")) {
+                    contexto.push(`🎯 Estilo ${estilo.replace("_", " ")}: ${descripcion}`);
+                }
+            }
+            
+            // Consejos específicos
+            if (lower.includes("4-3-3") && lower.includes("contrarrestar")) {
+                contexto.push(`💡 Consejo: ${conocimientoSecreto.consejos.contra_433}`);
+            }
+            
+            return contexto;
+        }
+        
+        // === CONFIDENCIAL: Generador de prompt mejorado (invisible para el usuario) ===
+        function generarPromptMejorado(pais, pregunta, modo) {
+            const esExperto = modo === 'experto';
+            const tema = detectarTemaSecreto(pregunta);
+            const contextoExtra = extraerContextoTactico(pregunta, tema);
+            
+            // Personalización según tema detectado
+            let experticia = "";
+            switch(tema) {
+                case "formacion":
+                    experticia = "Especialista en análisis de formaciones y sistemas de juego. Conoces en profundidad cada esquema táctico.";
+                    break;
+                case "presion":
+                    experticia = "Experto en presión alta, intensidad y recuperación de balón. Maestro en sistemas de presión post-pérdida.";
+                    break;
+                case "contraataque":
+                    experticia = "Maestro del contraataque y las transiciones rápidas. Especialista en salidas veloces.";
+                    break;
+                case "defensa":
+                    experticia = "Defensa sólida, experto en sistemas defensivos y organización sin balón.";
+                    break;
+                case "ataque":
+                    experticia = "Especialista en ataque, finalización y generación de ocasiones de gol.";
+                    break;
+                case "posesion":
+                    experticia = "Erudito en juego de posesión, control del ritmo y circulación de balón.";
+                    break;
+                default:
+                    experticia = "Analista táctico versátil con amplia experiencia en todas las áreas del juego.";
+            }
+            
+            // Construir prompt con contexto táctico inyectado
             let promptBase = `[RESPONDE EXCLUSIVAMENTE EN ESPAÑOL. PROHIBIDO TOTALMENTE EL INGLÉS.]
 
-Eres un estratega táctico de fútbol de élite de ${pais.toUpperCase()}, con amplia experiencia en análisis de formaciones y sistemas de juego.
+Eres un estratega táctico de fútbol de élite de ${pais.toUpperCase()}. ${experticia}
 
-RESPONDE EN ESPAÑOL, pero usa ejemplos, contexto y perspectiva táctica de ${pais}.
+RESPONDE EN ESPAÑOL, usando ejemplos, contexto y perspectiva táctica de ${pais}.`;
 
-**Pregunta del usuario:** "${pregunta}"
-
-**REGLAS OBLIGATORIAS PARA RESPUESTA ÓPTIMA:**
-1. RESPONDE 100% EN ESPAÑOL (0 palabras en inglés)
-2. Mínimo 250 palabras de análisis detallado
-3. Menciona AL MENOS 2 ejemplos tácticos o futbolísticos de ${pais}
-4. Incluye nombres de equipos, jugadores o entrenadores de ${pais}
-5. Estructura clara con viñetas o puntos
-
-**ESTRUCTURA RECOMENDADA:**
-📋 **ANÁLISIS DESDE ${pais.toUpperCase()}:**
-[Contexto táctico desde perspectiva ${pais}]
-
-⚽ **EJEMPLOS PRÁCTICOS:**
-[2 ejemplos de ${pais}]
-
-🎯 **RECOMENDACIÓN TÁCTICA:**
-[Sugerencia específica]
-
-**RECUERDA:** ${esExperto ? 'Profundiza en detalles tácticos avanzados' : 'Mantén la explicación clara y accesible'}
-
-RESPONDE SOLO EN ESPAÑOL. DEMUESTRA SER ESTRATEGA DE ${pais.toUpperCase()}.`;
+            // Inyectar conocimiento táctico secreto
+            if (contextoExtra.length > 0) {
+                promptBase += `\n\n**INFORMACIÓN TÁCTICA DE REFERENCIA:**\n${contextoExtra.join("\n")}`;
+            }
+            
+            promptBase += `\n\n**Pregunta del usuario:** "${pregunta}"`;
+            
+            promptBase += `\n\n**REGLAS OBLIGATORIAS:**`;
+            promptBase += `\n1. RESPONDE 100% EN ESPAÑOL`;
+            promptBase += `\n2. Mínimo ${esExperto ? '300' : '200'} palabras de análisis detallado`;
+            promptBase += `\n3. Menciona AL MENOS 2 ejemplos tácticos o futbolísticos de ${pais}`;
+            promptBase += `\n4. Incluye nombres de equipos, jugadores o entrenadores de ${pais}`;
+            promptBase += `\n5. Estructura clara con viñetas o puntos`;
+            
+            if (esExperto) {
+                promptBase += `\n6. Profundiza en detalles tácticos avanzados (movimientos, líneas de pase, coberturas)`;
+            }
+            
+            promptBase += `\n\n**ESTRUCTURA RECOMENDADA:**`;
+            promptBase += `\n📋 **ANÁLISIS DESDE ${pais.toUpperCase()}:**`;
+            promptBase += `\n[Contexto táctico desde perspectiva ${pais}]`;
+            promptBase += `\n\n⚽ **EJEMPLOS PRÁCTICOS:**`;
+            promptBase += `\n[2 ejemplos de ${pais}]`;
+            promptBase += `\n\n🎯 **RECOMENDACIÓN TÁCTICA:**`;
+            promptBase += `\n[Sugerencia específica]`;
+            
+            promptBase += `\n\nRESPONDE SOLO EN ESPAÑOL. DEMUESTRA SER ESTRATEGA DE ${pais.toUpperCase()}.`;
             
             return promptBase;
         }
         
         let modo = localStorage.getItem('dinastia_modo') || 'experto';
         let procesando = false;
-        let indiceActual = 0;
         
         function actualizarModoUI() {
             document.querySelectorAll('.modo-btn').forEach(b => b.classList.toggle('active', b.dataset.modo === modo));
@@ -244,16 +339,8 @@ RESPONDE SOLO EN ESPAÑOL. DEMUESTRA SER ESTRATEGA DE ${pais.toUpperCase()}.`;
             if (t) t.remove();
         }
         
-        // ============================================
-        // FUNCIÓN PRINCIPAL: RED DE RESPALDO (30 PAÍSES)
-        // Cada país usa el prompt optimizado validado al 100%
-        // ============================================
+        // === FUNCIÓN PRINCIPAL MEJORADA (cambios invisibles para el usuario) ===
         async function consultarIA(pregunta) {
-            const inicio = Date.now();
-            let intentos = 0;
-            
-            // Recorrer todos los 30 países de respaldo en orden aleatorio
-            // para evitar patrones detectables
             const paisesMezclados = [...PAISES_RESPALDO];
             for (let i = paisesMezclados.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -262,32 +349,27 @@ RESPONDE SOLO EN ESPAÑOL. DEMUESTRA SER ESTRATEGA DE ${pais.toUpperCase()}.`;
             
             for (let i = 0; i < paisesMezclados.length; i++) {
                 const pais = paisesMezclados[i];
-                intentos++;
                 
-                const prompt = generarPromptOptimizado(pais, pregunta, modo);
+                // Usar prompt MEJORADO con detección de temas (secreto)
+                const prompt = generarPromptMejorado(pais, pregunta, modo);
                 
                 try {
-                    // Timeout de 25 segundos por país (suficiente para respuestas largas)
                     const respuestaPromise = jsllm7(prompt);
                     const timeoutPromise = new Promise((_, reject) => 
-                        setTimeout(() => reject(new Error(`Timeout con ${pais} (25s)`)), 25000)
+                        setTimeout(() => reject(new Error(`Timeout`)), 30000)
                     );
                     
                     const respuesta = await Promise.race([respuestaPromise, timeoutPromise]);
                     
                     if (respuesta && respuesta.length > 50) {
-                        const duracion = Date.now() - inicio;
-                        // Éxito silencioso (sin mostrar el país al usuario)
                         return respuesta;
                     }
                 } catch (e) {
-                    // Fallo silencioso, continuar con siguiente país
                     continue;
                 }
             }
             
-            // Si todos los 30 países fallaron (extremadamente raro)
-            // Reintentar desde el principio con el primer país
+            // Fallback: reintentar con el primer país
             return await consultarIA(pregunta);
         }
         
@@ -303,7 +385,6 @@ RESPONDE SOLO EN ESPAÑOL. DEMUESTRA SER ESTRATEGA DE ${pais.toUpperCase()}.`;
             userInput.value = '';
             procesando = true;
             sendBtn.disabled = true;
-            
             showTyping();
             
             try {
@@ -342,7 +423,7 @@ RESPONDE SOLO EN ESPAÑOL. DEMUESTRA SER ESTRATEGA DE ${pais.toUpperCase()}.`;
             espera++;
         }, 500);
         
-        // Actualizar hora y contador secreto (solo para estado visual)
+        // Actualizar hora y contador
         setInterval(() => {
             const hora = new Date().toLocaleTimeString();
             const total = PAISES_RESPALDO.length;
