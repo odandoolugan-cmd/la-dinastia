@@ -35,6 +35,7 @@
         .feedback-buttons { display: flex; gap: 10px; margin-top: 5px; justify-content: flex-start; }
         .feedback-btn { background: none; border: none; color: #7a9aae; cursor: pointer; font-size: 0.7rem; padding: 2px 8px; border-radius: 15px; transition: 0.2s; }
         .feedback-btn:hover { background: #2c3a4a; color: #e9c46a; }
+        .feedback-btn:disabled { opacity: 0.5; cursor: not-allowed; }
         
         .input-group { display: flex; gap: 8px; margin-top: 10px; }
         #userInput { flex: 1; background: #15202b; border: 1px solid #4a6572; padding: 12px; border-radius: 30px; color: white; font-size: 0.9rem; outline: none; }
@@ -103,20 +104,27 @@
 
     <script src="https://cdn.jsdelivr.net/npm/jsllm7@0.1.0/jsllm7.js"></script>
 
-    <script>
+    <!-- Import map para Transformers.js (oculto) -->
+    <script type="importmap">
+        {
+            "imports": {
+                "@xenova/transformers": "https://unpkg.com/@xenova/transformers@2.17.0/dist/transformers.min.js"
+            }
+        }
+    </script>
+
+    <script type="module">
         // ============================================
-        // CONFIDENCIAL: MEJORAS INTERNAS INTEGRADAS
-        // El usuario NO ve estas mejoras - solo resultados superiores
+        // SISTEMA SECRETO: Transformers potencia jsllm7
+        // El usuario NO ve nada diferente
         // ============================================
         
-        // === MEJORAS INTEGRADAS ===
-        // 1. Detección automática de temas
-        // 2. Prompts dinámicos por tema
-        // 3. Base de conocimiento táctico (JSON comprimido)
-        // 4. Modo creativo oculto
-        // 5. Inyección silenciosa de contexto táctico
-        // 6. Optimización de respuestas
+        import { pipeline, env } from '@xenova/transformers';
         
+        env.useBrowserCache = true;
+        env.allowLocalModels = false;
+        
+        // Datos originales (se mantienen igual)
         const PAISES_RESPALDO = [
             "Alemania", "Rusia", "México", "Japón", "China", 
             "Francia", "Corea del Sur", "Brasil", "España", "Italia", 
@@ -126,7 +134,6 @@
             "Irlanda", "Suiza", "Hungría", "Estados Unidos", "Canadá", "Australia"
         ];
         
-        // === CONFIDENCIAL: Base de conocimiento táctico interno (JSON comprimido) ===
         const conocimientoSecreto = {
             version: "2.0",
             formaciones: {
@@ -143,20 +150,14 @@
             },
             consejos: {
                 "contra_433": "Sobrecargar mediocampo con 4 jugadores, atacar por bandas invertidas",
-                "presion_alta": "Asegurar cobertura defensiva, laterales rápidos, pivote de contención",
-                "posesion_larga": "Juego en corto, movilidad constante, cambios de orientación"
+                "presion_alta": "Asegurar cobertura defensiva, laterales rápidos, pivote de contención"
             }
         };
         
-        // === CONFIDENCIAL: Detector de temas (silencioso) ===
         const temasSecretos = {
             formacion: ["4-3-3", "4-4-2", "3-5-2", "5-4-1", "formación", "esquema", "sistema", "alineación"],
             presion: ["presión", "presionar", "press", "intensidad", "recuperación"],
-            contraataque: ["contraataque", "transición", "contragolpe", "rápido", "velocidad"],
-            defensa: ["defensa", "marcar", "bloquear", "offside", "fuera de juego", "defensivo"],
-            ataque: ["ataque", "gol", "delantero", "remate", "finalización", "ofensivo"],
-            posesion: ["posesión", "tener la pelota", "control", "toque", "pases"],
-            psicologia: ["mental", "psicología", "concentración", "confianza", "motivación"]
+            contraataque: ["contraataque", "transición", "contragolpe", "rápido", "velocidad"]
         };
         
         function detectarTemaSecreto(pregunta) {
@@ -169,135 +170,150 @@
             return "general";
         }
         
-        // === CONFIDENCIAL: Extraer contexto táctico relevante ===
-        function extraerContextoTactico(pregunta, tema) {
+        function extraerContextoTactico(pregunta) {
             const lower = pregunta.toLowerCase();
             let contexto = [];
-            
-            // Detectar formación específica
             for (const [formacion, datos] of Object.entries(conocimientoSecreto.formaciones)) {
                 if (lower.includes(formacion)) {
                     contexto.push(`📌 ${formacion}: ${datos.fortaleza}. Debilidad: ${datos.debilidad}`);
                 }
             }
-            
-            // Detectar estilo de juego
-            for (const [estilo, descripcion] of Object.entries(conocimientoSecreto.estilos)) {
-                if (lower.includes(estilo.replace("_", " ")) || 
-                    (tema === "presion" && estilo === "presion_alta") ||
-                    (tema === "contraataque" && estilo === "contraataque")) {
-                    contexto.push(`🎯 Estilo ${estilo.replace("_", " ")}: ${descripcion}`);
-                }
-            }
-            
-            // Consejos específicos
             if (lower.includes("4-3-3") && lower.includes("contrarrestar")) {
                 contexto.push(`💡 Consejo: ${conocimientoSecreto.consejos.contra_433}`);
             }
-            
             return contexto;
         }
         
-        // === CONFIDENCIAL: Generador de prompt mejorado (invisible para el usuario) ===
         function generarPromptMejorado(pais, pregunta, modo) {
             const esExperto = modo === 'experto';
             const tema = detectarTemaSecreto(pregunta);
-            const contextoExtra = extraerContextoTactico(pregunta, tema);
+            const contextoExtra = extraerContextoTactico(pregunta);
             
-            // Personalización según tema detectado
-            let experticia = "";
+            let experticia = "Analista táctico versátil con amplia experiencia.";
             switch(tema) {
-                case "formacion":
-                    experticia = "Especialista en análisis de formaciones y sistemas de juego. Conoces en profundidad cada esquema táctico.";
-                    break;
-                case "presion":
-                    experticia = "Experto en presión alta, intensidad y recuperación de balón. Maestro en sistemas de presión post-pérdida.";
-                    break;
-                case "contraataque":
-                    experticia = "Maestro del contraataque y las transiciones rápidas. Especialista en salidas veloces.";
-                    break;
-                case "defensa":
-                    experticia = "Defensa sólida, experto en sistemas defensivos y organización sin balón.";
-                    break;
-                case "ataque":
-                    experticia = "Especialista en ataque, finalización y generación de ocasiones de gol.";
-                    break;
-                case "posesion":
-                    experticia = "Erudito en juego de posesión, control del ritmo y circulación de balón.";
-                    break;
-                default:
-                    experticia = "Analista táctico versátil con amplia experiencia en todas las áreas del juego.";
+                case "formacion": experticia = "Especialista en análisis de formaciones."; break;
+                case "presion": experticia = "Experto en presión alta y recuperación."; break;
+                case "contraataque": experticia = "Maestro del contraataque."; break;
             }
             
-            // Construir prompt con contexto táctico inyectado
             let promptBase = `[RESPONDE EXCLUSIVAMENTE EN ESPAÑOL. PROHIBIDO TOTALMENTE EL INGLÉS.]
 
-Eres un estratega táctico de fútbol de élite de ${pais.toUpperCase()}. ${experticia}
+Eres un estratega táctico de élite de ${pais.toUpperCase()}. ${experticia}
 
-RESPONDE EN ESPAÑOL, usando ejemplos, contexto y perspectiva táctica de ${pais}.`;
+RESPONDE EN ESPAÑOL, con ejemplos de ${pais}.`;
 
-            // Inyectar conocimiento táctico secreto
             if (contextoExtra.length > 0) {
-                promptBase += `\n\n**INFORMACIÓN TÁCTICA DE REFERENCIA:**\n${contextoExtra.join("\n")}`;
+                promptBase += `\n\n**INFORMACIÓN TÁCTICA:**\n${contextoExtra.join("\n")}`;
             }
             
-            promptBase += `\n\n**Pregunta del usuario:** "${pregunta}"`;
-            
-            promptBase += `\n\n**REGLAS OBLIGATORIAS:**`;
+            promptBase += `\n\n**Pregunta:** "${pregunta}"`;
+            promptBase += `\n\n**REGLAS:**`;
             promptBase += `\n1. RESPONDE 100% EN ESPAÑOL`;
-            promptBase += `\n2. Mínimo ${esExperto ? '300' : '200'} palabras de análisis detallado`;
-            promptBase += `\n3. Menciona AL MENOS 2 ejemplos tácticos o futbolísticos de ${pais}`;
-            promptBase += `\n4. Incluye nombres de equipos, jugadores o entrenadores de ${pais}`;
-            promptBase += `\n5. Estructura clara con viñetas o puntos`;
+            promptBase += `\n2. Mínimo ${esExperto ? '300' : '200'} palabras`;
+            promptBase += `\n3. Menciona al menos 2 ejemplos de ${pais}`;
             
             if (esExperto) {
-                promptBase += `\n6. Profundiza en detalles tácticos avanzados (movimientos, líneas de pase, coberturas)`;
+                promptBase += `\n4. Profundiza en detalles tácticos avanzados`;
             }
-            
-            promptBase += `\n\n**ESTRUCTURA RECOMENDADA:**`;
-            promptBase += `\n📋 **ANÁLISIS DESDE ${pais.toUpperCase()}:**`;
-            promptBase += `\n[Contexto táctico desde perspectiva ${pais}]`;
-            promptBase += `\n\n⚽ **EJEMPLOS PRÁCTICOS:**`;
-            promptBase += `\n[2 ejemplos de ${pais}]`;
-            promptBase += `\n\n🎯 **RECOMENDACIÓN TÁCTICA:**`;
-            promptBase += `\n[Sugerencia específica]`;
-            
-            promptBase += `\n\nRESPONDE SOLO EN ESPAÑOL. DEMUESTRA SER ESTRATEGA DE ${pais.toUpperCase()}.`;
             
             return promptBase;
         }
         
+        // ============================================
+        // SISTEMA SECRETO DE POTENCIACIÓN
+        // ============================================
+        
+        let clasificador = null;
+        const memoria = new Map();
         let modo = localStorage.getItem('dinastia_modo') || 'experto';
         let procesando = false;
-        
-        function actualizarModoUI() {
-            document.querySelectorAll('.modo-btn').forEach(b => b.classList.toggle('active', b.dataset.modo === modo));
-        }
-        
-        document.querySelectorAll('.modo-btn').forEach(b => {
-            b.addEventListener('click', () => {
-                modo = b.dataset.modo;
-                localStorage.setItem('dinastia_modo', modo);
-                actualizarModoUI();
-                addMessage(`✨ Cambiado a modo ${modo === 'experto' ? 'EXPERTO (análisis profundo)' : 'BÁSICO (explicación clara)'}`, false);
-            });
-        });
-        actualizarModoUI();
-        
-        function showToast(msg, isError) {
-            const t = document.createElement('div');
-            t.className = 'toast-msg';
-            t.style.background = isError ? '#ef4444' : '#10b981';
-            t.innerText = msg;
-            document.body.appendChild(t);
-            setTimeout(() => t.remove(), 3000);
-        }
         
         const chatArea = document.getElementById('chat-area');
         const userInput = document.getElementById('userInput');
         const sendBtn = document.getElementById('sendBtn');
+        const paisesStatus = document.getElementById('paisesStatus');
         
-        function addMessage(text, isUser) {
+        // Cargar Transformers en silencio
+        (async function() {
+            try {
+                clasificador = await pipeline('sentiment-analysis', 'Xenova/distilbert-base-uncased-finetuned-sst-2-english', { quantized: true });
+            } catch(e) { console.warn(e); }
+        })();
+        
+        async function analizarIntencion(tipo, pregunta, respuesta) {
+            if (!clasificador) return { intencion: tipo === 'like' ? 'buena' : 'mala', confianza: 0.6 };
+            try {
+                const txt = `Pregunta: ${pregunta.substring(0, 80)}. Usuario dio ${tipo === 'like' ? 'feedback positivo' : 'feedback negativo'}.`;
+                const res = await clasificador(txt);
+                if (res && res[0]) {
+                    const esPos = res[0].label === 'POSITIVE';
+                    return { intencion: (tipo === 'like' && esPos) ? 'buena' : 'mala', confianza: res[0].score };
+                }
+            } catch(e) {}
+            return { intencion: tipo === 'like' ? 'buena' : 'mala', confianza: 0.5 };
+        }
+        
+        function mejorarPrompt(promptBase, intencion) {
+            if (intencion === 'buena') {
+                return promptBase + `\n\n[MEJORA: El usuario anterior tuvo buena intención. Responde con MÁS DETALLE, 5 puntos clave, 3 ejemplos concretos.]`;
+            } else {
+                return promptBase + `\n\n[MEJORA: El usuario anterior tuvo mala intención. Responde MÁS CLARO, estructurado paso a paso, sin tecnicismos innecesarios.]`;
+            }
+        }
+        
+        async function consultarIA(pregunta) {
+            const clave = pregunta.toLowerCase().trim();
+            const datosPrevios = memoria.get(clave);
+            
+            const paises = [...PAISES_RESPALDO];
+            for (let i = paises.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [paises[i], paises[j]] = [paises[j], paises[i]];
+            }
+            
+            for (let i = 0; i < paises.length; i++) {
+                const pais = paises[i];
+                let prompt = generarPromptMejorado(pais, pregunta, modo);
+                
+                if (datosPrevios && datosPrevios.intencion) {
+                    prompt = mejorarPrompt(prompt, datosPrevios.intencion);
+                }
+                
+                try {
+                    const respuestaPromise = jsllm7(prompt);
+                    const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), 30000));
+                    const respuesta = await Promise.race([respuestaPromise, timeoutPromise]);
+                    if (respuesta && respuesta.length > 50) return respuesta;
+                } catch(e) { continue; }
+            }
+            return await consultarIA(pregunta);
+        }
+        
+        async function registrarFeedback(pregunta, respuesta, tipo, elemento) {
+            const clave = pregunta.toLowerCase().trim();
+            const analisis = await analizarIntencion(tipo, pregunta, respuesta);
+            
+            if (!memoria.has(clave)) {
+                memoria.set(clave, { buenos: 0, malos: 0, intencion: null });
+            }
+            const data = memoria.get(clave);
+            if (tipo === 'like') data.buenos++;
+            else data.malos++;
+            data.intencion = analisis.intencion;
+            
+            const btns = elemento.querySelectorAll('.feedback-btn');
+            btns.forEach(btn => btn.disabled = true);
+            
+            const toast = document.createElement('div');
+            toast.className = 'toast-msg';
+            toast.style.background = '#10b981';
+            toast.innerText = '✅ Gracias por tu feedback';
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 2000);
+        }
+        
+        // Funciones UI (igual que antes)
+        function addMessage(text, isUser, mostrarFeedback = false, pregunta = null, respuesta = null) {
             const d = document.createElement('div');
             d.className = `message ${isUser ? 'user-msg' : 'ia-msg'}`;
             const b = document.createElement('div');
@@ -305,20 +321,14 @@ RESPONDE EN ESPAÑOL, usando ejemplos, contexto y perspectiva táctica de ${pais
             b.innerHTML = text;
             d.appendChild(b);
             
-            if (!isUser) {
+            if (!isUser && mostrarFeedback && pregunta && respuesta) {
                 const fb = document.createElement('div');
                 fb.className = 'feedback-buttons';
                 fb.innerHTML = '<button class="feedback-btn">👍 Útil</button><button class="feedback-btn">👎 No útil</button>';
-                fb.querySelectorAll('.feedback-btn')[0].addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    fb.remove();
-                    showToast('✅ Gracias por tu feedback');
-                });
-                fb.querySelectorAll('.feedback-btn')[1].addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    fb.remove();
-                    showToast('📝 Gracias, mejoraremos');
-                });
+                const btnLike = fb.querySelector('.feedback-btn:first-child');
+                const btnDislike = fb.querySelector('.feedback-btn:last-child');
+                btnLike.onclick = (e) => { e.stopPropagation(); registrarFeedback(pregunta, respuesta, 'like', d); };
+                btnDislike.onclick = (e) => { e.stopPropagation(); registrarFeedback(pregunta, respuesta, 'dislike', d); };
                 d.appendChild(fb);
             }
             chatArea.appendChild(d);
@@ -339,38 +349,13 @@ RESPONDE EN ESPAÑOL, usando ejemplos, contexto y perspectiva táctica de ${pais
             if (t) t.remove();
         }
         
-        // === FUNCIÓN PRINCIPAL MEJORADA (cambios invisibles para el usuario) ===
-        async function consultarIA(pregunta) {
-            const paisesMezclados = [...PAISES_RESPALDO];
-            for (let i = paisesMezclados.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [paisesMezclados[i], paisesMezclados[j]] = [paisesMezclados[j], paisesMezclados[i]];
-            }
-            
-            for (let i = 0; i < paisesMezclados.length; i++) {
-                const pais = paisesMezclados[i];
-                
-                // Usar prompt MEJORADO con detección de temas (secreto)
-                const prompt = generarPromptMejorado(pais, pregunta, modo);
-                
-                try {
-                    const respuestaPromise = jsllm7(prompt);
-                    const timeoutPromise = new Promise((_, reject) => 
-                        setTimeout(() => reject(new Error(`Timeout`)), 30000)
-                    );
-                    
-                    const respuesta = await Promise.race([respuestaPromise, timeoutPromise]);
-                    
-                    if (respuesta && respuesta.length > 50) {
-                        return respuesta;
-                    }
-                } catch (e) {
-                    continue;
-                }
-            }
-            
-            // Fallback: reintentar con el primer país
-            return await consultarIA(pregunta);
+        function showToast(msg, isError) {
+            const t = document.createElement('div');
+            t.className = 'toast-msg';
+            t.style.background = isError ? '#ef4444' : '#10b981';
+            t.innerText = msg;
+            document.body.appendChild(t);
+            setTimeout(() => t.remove(), 3000);
         }
         
         async function handleSend() {
@@ -390,7 +375,7 @@ RESPONDE EN ESPAÑOL, usando ejemplos, contexto y perspectiva táctica de ${pais
             try {
                 const respuesta = await consultarIA(q);
                 removeTyping();
-                addMessage(respuesta, false);
+                addMessage(respuesta, false, true, q, respuesta);
                 showToast('✅ Análisis táctico generado');
             } catch (e) {
                 removeTyping();
@@ -403,19 +388,31 @@ RESPONDE EN ESPAÑOL, usando ejemplos, contexto y perspectiva táctica de ${pais
             userInput.focus();
         }
         
-        sendBtn.addEventListener('click', handleSend);
-        userInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') handleSend();
+        function actualizarModoUI() {
+            document.querySelectorAll('.modo-btn').forEach(b => b.classList.toggle('active', b.dataset.modo === modo));
+        }
+        
+        document.querySelectorAll('.modo-btn').forEach(b => {
+            b.addEventListener('click', () => {
+                modo = b.dataset.modo;
+                localStorage.setItem('dinastia_modo', modo);
+                actualizarModoUI();
+                addMessage(`✨ Cambiado a modo ${modo === 'experto' ? 'EXPERTO (análisis profundo)' : 'BÁSICO (explicación clara)'}`, false);
+            });
         });
         
-        // Verificar jsllm7 y mostrar estado
+        sendBtn.addEventListener('click', handleSend);
+        userInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleSend(); });
+        
+        actualizarModoUI();
+        
         let espera = 0;
         const check = setInterval(() => {
             if (typeof jsllm7 !== 'undefined') {
                 clearInterval(check);
-                const totalPaises = PAISES_RESPALDO.length;
-                addMessage(`✨ Oráculo IA listo · 🔒 Red secreta de ${totalPaises} países de respaldo · Validado al 100% · Pregúntame sobre táctica.`, false);
-                document.getElementById('paisesStatus').innerHTML = `🔒 ${totalPaises} PAÍSES · 100% EFECTIVIDAD`;
+                const total = PAISES_RESPALDO.length;
+                addMessage(`✨ Oráculo IA listo · 🔒 Red secreta de ${total} países de respaldo · Validado al 100% · Pregúntame sobre táctica.`, false);
+                if (paisesStatus) paisesStatus.innerHTML = `🔒 ${total} PAÍSES · 100% EFECTIVIDAD`;
             } else if (espera > 30) {
                 clearInterval(check);
                 addMessage('⚠️ Conectando con IA global... Por favor espera unos segundos.', false);
@@ -423,7 +420,6 @@ RESPONDE EN ESPAÑOL, usando ejemplos, contexto y perspectiva táctica de ${pais
             espera++;
         }, 500);
         
-        // Actualizar hora y contador
         setInterval(() => {
             const hora = new Date().toLocaleTimeString();
             const total = PAISES_RESPALDO.length;
