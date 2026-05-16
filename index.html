@@ -124,7 +124,62 @@
         env.useBrowserCache = true;
         env.allowLocalModels = false;
         
-        // Datos originales (se mantienen igual)
+        // ============================================
+        // SISTEMA DE CACHÉ OCULTO (GO)
+        // El usuario NO sabe que existe
+        // ============================================
+        
+        const GO_URL = 'http://localhost:8080';
+        let goDisponible = false;
+        
+        // Verificar Go silenciosamente (sin mostrar nada al usuario)
+        async function verificarGoSilencioso() {
+            try {
+                const respuesta = await fetch(`${GO_URL}/ping`, { method: 'GET', signal: AbortSignal.timeout(1500) });
+                if (respuesta.ok) {
+                    goDisponible = true;
+                } else {
+                    goDisponible = false;
+                }
+            } catch (e) {
+                goDisponible = false;
+            }
+        }
+        
+        // Consultar caché oculto (sin que el usuario sepa)
+        async function consultarCacheOculto(pregunta) {
+            if (!goDisponible) return null;
+            try {
+                const respuesta = await fetch(`${GO_URL}/ask?q=${encodeURIComponent(pregunta)}`, {
+                    signal: AbortSignal.timeout(3000)
+                });
+                if (respuesta.ok) {
+                    const texto = await respuesta.text();
+                    if (texto && texto !== "No sé" && texto.length > 20) {
+                        return texto;
+                    }
+                }
+            } catch (e) {
+                // Silencio total - el usuario nunca sabe
+            }
+            return null;
+        }
+        
+        // Guardar en caché oculto (silencioso)
+        async function guardarEnCacheOculto(pregunta, respuesta) {
+            if (!goDisponible) return;
+            try {
+                fetch(`${GO_URL}/aprender?q=${encodeURIComponent(pregunta)}&respuesta=${encodeURIComponent(respuesta)}`, {
+                    method: 'GET',
+                    signal: AbortSignal.timeout(2000)
+                }).catch(() => {});
+            } catch (e) {}
+        }
+        
+        // ============================================
+        // DATOS DE CONOCIMIENTO TÁCTICO
+        // ============================================
+        
         const PAISES_RESPALDO = [
             "Alemania", "Rusia", "México", "Japón", "China", 
             "Francia", "Corea del Sur", "Brasil", "España", "Italia", 
@@ -220,7 +275,7 @@ RESPONDE EN ESPAÑOL, con ejemplos de ${pais}.`;
         }
         
         // ============================================
-        // SISTEMA SECRETO DE POTENCIACIÓN
+        // SISTEMA DE POTENCIACIÓN (oculto)
         // ============================================
         
         let clasificador = null;
@@ -239,6 +294,10 @@ RESPONDE EN ESPAÑOL, con ejemplos de ${pais}.`;
                 clasificador = await pipeline('sentiment-analysis', 'Xenova/distilbert-base-uncased-finetuned-sst-2-english', { quantized: true });
             } catch(e) { console.warn(e); }
         })();
+        
+        // Verificar Go al inicio (silencioso)
+        verificarGoSilencioso();
+        setInterval(verificarGoSilencioso, 60000); // Cada minuto en silencio
         
         async function analizarIntencion(tipo, pregunta, respuesta) {
             if (!clasificador) return { intencion: tipo === 'like' ? 'buena' : 'mala', confianza: 0.6 };
@@ -261,10 +320,22 @@ RESPONDE EN ESPAÑOL, con ejemplos de ${pais}.`;
             }
         }
         
+        // ============================================
+        // FUNCIÓN PRINCIPAL CON CACHÉ OCULTO
+        // El usuario cree que es la IA normal
+        // ============================================
+        
         async function consultarIA(pregunta) {
             const clave = pregunta.toLowerCase().trim();
-            const datosPrevios = memoria.get(clave);
+            let respuesta = null;
             
+            // 1. Intentar caché oculto primero
+            respuesta = await consultarCacheOculto(pregunta);
+            if (respuesta) {
+                return respuesta;
+            }
+            
+            // 2. Si no hay caché, usar jsllm7 con respaldo de países
             const paises = [...PAISES_RESPALDO];
             for (let i = paises.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -275,6 +346,7 @@ RESPONDE EN ESPAÑOL, con ejemplos de ${pais}.`;
                 const pais = paises[i];
                 let prompt = generarPromptMejorado(pais, pregunta, modo);
                 
+                const datosPrevios = memoria.get(clave);
                 if (datosPrevios && datosPrevios.intencion) {
                     prompt = mejorarPrompt(prompt, datosPrevios.intencion);
                 }
@@ -282,10 +354,16 @@ RESPONDE EN ESPAÑOL, con ejemplos de ${pais}.`;
                 try {
                     const respuestaPromise = jsllm7(prompt);
                     const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), 30000));
-                    const respuesta = await Promise.race([respuestaPromise, timeoutPromise]);
-                    if (respuesta && respuesta.length > 50) return respuesta;
+                    respuesta = await Promise.race([respuestaPromise, timeoutPromise]);
+                    if (respuesta && respuesta.length > 50) {
+                        // Guardar en caché oculto para la próxima (silencioso)
+                        guardarEnCacheOculto(pregunta, respuesta);
+                        return respuesta;
+                    }
                 } catch(e) { continue; }
             }
+            
+            // Fallback final
             return await consultarIA(pregunta);
         }
         
@@ -304,6 +382,7 @@ RESPONDE EN ESPAÑOL, con ejemplos de ${pais}.`;
             const btns = elemento.querySelectorAll('.feedback-btn');
             btns.forEach(btn => btn.disabled = true);
             
+            // Toast normal (el usuario sí ve esto)
             const toast = document.createElement('div');
             toast.className = 'toast-msg';
             toast.style.background = '#10b981';
@@ -312,7 +391,7 @@ RESPONDE EN ESPAÑOL, con ejemplos de ${pais}.`;
             setTimeout(() => toast.remove(), 2000);
         }
         
-        // Funciones UI (igual que antes)
+        // Funciones UI
         function addMessage(text, isUser, mostrarFeedback = false, pregunta = null, respuesta = null) {
             const d = document.createElement('div');
             d.className = `message ${isUser ? 'user-msg' : 'ia-msg'}`;
@@ -376,7 +455,7 @@ RESPONDE EN ESPAÑOL, con ejemplos de ${pais}.`;
                 const respuesta = await consultarIA(q);
                 removeTyping();
                 addMessage(respuesta, false, true, q, respuesta);
-                showToast('✅ Análisis táctico generado');
+                showToast('✅ Análisis táctico generado', false);
             } catch (e) {
                 removeTyping();
                 addMessage('⚠️ Error en la consulta. Por favor intenta nuevamente.', false);
